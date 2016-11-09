@@ -20,6 +20,26 @@ let expireStyle = new Style({ font: "14px Didot", color: "black" });
 /* String Template Definition */
 var StringTemplate = Label.template($ => ({    left: $.left, right: $.right, top: $.top, bottom: $.bottom,    style: $.style,    string: $.string}));
 
+/******************* LOADING PAGE IMPLEMENTATION ************************/
+let loadingPic = new Picture({
+	height: 568, url: "loading.png",
+	active: true,
+	behavior: Behavior({
+		onTouchEnded(container, id, x, y, ticks) {
+			MainContainer.empty();
+			MainContainer.add(FoodStatusPageContainer);
+			application.distribute("onUpdateFridgeStatus");		}
+	})
+});
+
+/* Loading Page Container*/
+let LoadingPageContainer = new Container({
+	left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin,
+	contents: [
+		loadingPic
+	]	
+});
+
 /**************** FRIDGE STATUS PAGE IMPLEMENTATION *********************/
 
 /* Food Status Page Title Container */
@@ -36,15 +56,16 @@ let titleBorderLine = new Container({
 	]
 });
 
+/* First Food Entry Implementation*/
 let milkPicture = new Picture({left: 3, right: 257, height: 64, url: "milk.jpeg"});
-let milkName = new Label({left: 65, right: 200, style: foodNameStyle, string: "Milk"});
+let milkName = new Label({left: 65, right: 180, style: foodNameStyle, string: "Milk"});
 
 let foodOneLengthContainer = new Container({
 	left: 145, right: 5, top: 25, bottom: 25, skin: darkerGreySkin,
 	contents: [
 	]
 });
-var foodOneTemplate = Container.template($ => ({
+var foodExpireLengthTemplate = Container.template($ => ({
 	left: 0, right: $.right, top: 0, bottom: 0, skin: $.skin,
 }));
 
@@ -64,11 +85,36 @@ let foodOneBorderLine = new Container({
 	]
 });
 
+/* Second Food Entry Implementation */
+let avocadoPicture = new Picture({left: 3, right: 257, height: 64, url: "avocado.jpg"});
+let avocadoName = new Label({left: 65, right: 180, style: foodNameStyle, string: "Avocado"});
+let foodTwoLengthContainer = new Container({
+	left: 145, right: 5, top: 25, bottom: 25, skin: darkerGreySkin,
+	contents: [
+	]
+});
+let FoodTwoExpireLabel = new StringTemplate ({ left: 145, top: 55, bottom: 10, style: expireStyle, string: "Expires in N/A days" });
+let statusPageFoodTwoContainer = new Container({
+	left: 0, right: 0, top: 132, height: 70, skin: whiteSkin,
+	contents:[
+		avocadoPicture,
+		avocadoName,
+		foodTwoLengthContainer,
+		FoodTwoExpireLabel
+	]
+});
+let foodTwoBorderLine = new Container({
+	left: 0, right: 0, top: 202, height: 1, skin: borderLineSkin,
+	contents: [
+	]
+});
+
+
 let statusPageHomeButton = new Picture({
 	left: 140, url: "home.png",
 	active: true,
 	behavior: Behavior({		onTouchEnded(container, id, x, y, ticks) {
-			application.distribute("onUpdateFridgeStatus");		}	})
+		}	})
 });
 let statusPageCameraButton = new Picture({
 	left: 50, url: "camera.png",
@@ -97,7 +143,7 @@ let statusPageButtonContainer = new Container({
 });
 
 
-/* Food Status Page Container*/
+/* Food Status Page Container */
 let FoodStatusPageContainer = new Container({
 	left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin,
 	contents: [
@@ -105,15 +151,17 @@ let FoodStatusPageContainer = new Container({
 		titleBorderLine,
 		statusPageFoodOneContainer,
 		foodOneBorderLine,
+		statusPageFoodTwoContainer,
+		foodTwoBorderLine,
 		statusPageButtonContainer
 	]	
 });
 
 
-
+/****************** Main Container and Application Behavior ******************/
 
 /* Main Container Page */let MainContainer = new Container({	left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin,	contents: [
-		FoodStatusPageContainer	]});
+		LoadingPageContainer	]});
 
 
 let remotePins;
@@ -127,11 +175,22 @@ class AppBehavior extends Behavior {    onLaunch(application) {        applica
     			FoodOneExpireLabel.string = "Expires in " + ((1 - result) * 30).toFixed(1) + " days.";
     			foodOneLengthContainer.empty();
     			if (result >= 0.67) {
-    				foodOneLengthContainer.add(new foodOneTemplate({ right: 170 * parseFloat(1 - result), skin: redSkin}));
+    				foodOneLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: redSkin}));
     			} else if (result >= 0.33 && result < 0.67) {
-    				foodOneLengthContainer.add(new foodOneTemplate({ right: 170 * parseFloat(1 - result), skin: yellowSkin}));
+    				foodOneLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: yellowSkin}));
     			} else {
-    				foodOneLengthContainer.add(new foodOneTemplate({ right: 170 * parseFloat(1 - result), skin: expireGreenSkin}));
+    				foodOneLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: expireGreenSkin}));
+    			}
+    		})
+    		remotePins.repeat("/FoodTwo/read", 10, function(result) {
+    			FoodTwoExpireLabel.string = "Expires in " + ((1 - result) * 30).toFixed(1) + " days.";
+    			foodTwoLengthContainer.empty();
+    			if (result >= 0.67) {
+    				foodTwoLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: redSkin}));
+    			} else if (result >= 0.33 && result < 0.67) {
+    				foodTwoLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: yellowSkin}));
+    			} else {
+    				foodTwoLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: expireGreenSkin}));
     			}
     		})
     	}
