@@ -16,16 +16,243 @@ import Pins from "pins";
         let expireGreenSkin = new Skin ({fill: '#B8E986' });
 
     /************ STYLES ************/
-    let titleHeaderStyle = new Style({ font: "bold 24px Copperplate Gothic Bold", color: "white" });
-    let foodNameStyle = new Style({ font: "20px Didot", color: "black" });
-    let expireStyle = new Style({ font: "14px Didot", color: "black" });
+        let titleHeaderStyle = new Style({ font: "bold 24px Copperplate Gothic Bold", color: "white" });
+        let foodNameStyle = new Style({ font: "20px Didot", color: "black" });
+        let expireStyle = new Style({ font: "14px Didot", color: "black" });
 
     /******* STRING TEMPLATE ********/
-    var StringTemplate = Label.template($ => ({
-        left: $.left, right: $.right, top: $.top, bottom: $.bottom,
-        style: $.style,
-        string: $.string
-    }));
+        var StringTemplate = Label.template($ => ({
+            left: $.left, right: $.right, top: $.top, bottom: $.bottom,
+            style: $.style,
+            string: $.string
+        }));
+
+
+/************************************************************************/
+/************************** GENERAL COMPONENTS **************************/
+/************************************************************************/
+    /* Boarder Line */
+    let foodOneBorderLine = new Container({
+        left: 0, right: 0, top: 131, height: 1, skin: borderLineSkin,
+        contents: [
+        ]
+    });
+
+    /* Boarder Line */
+    let foodTwoBorderLine = new Container({
+        left: 0, right: 0, top: 202, height: 1, skin: borderLineSkin,
+        contents: [
+        ]
+    });
+
+    /* Boarder Line */
+    let foodThreeBorderLine = new Container({
+        left: 0, right: 0, top: 227, height: 1, skin: borderLineSkin,
+        contents: [
+        ]
+    });
+
+    /* Boarder Line */
+    let foodFourBorderLine = new Container({
+        left: 0, right: 0, top: 254, height: 1, skin: borderLineSkin,
+        contents: [
+        ]
+    });
+
+    /* Boarder Line */
+    let foodFiveBorderLine = new Container({
+        left: 0, right: 0, top: 281, height: 1, skin: borderLineSkin,
+        contents: [
+        ]
+    });
+
+
+    /* Buttons Implementation */
+        /******************* HOME BUTTON *******************/
+        let statusPageHomeButton = new Picture({
+            left: 140, url: "home.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+                }
+            })
+        });
+
+        /******************* HOME BUTTON *******************/
+        let cameraConfirmButton = new Picture({
+            left: 140, url: "camera_confirm_button.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+                }
+            })
+        });
+
+        let cameraOneConfirmButton = new Picture({
+            left: 140, url: "camera_confirm_button.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+                }
+            })
+        });
+
+        let cameraTwoConfirmButton = new Picture({
+            left: 140, url: "camera_confirm_button.png",
+            active: true,
+            behavior: Behavior({
+            onTouchEnded(container, id, x, y, ticks) {
+                MainContainer.empty();
+                MainContainer.add(postCameraConfirmContainer);
+            }
+           })
+        });
+
+        /******************* CAMERA BUTTON *******************/
+        let statusPageCameraButton = new Picture({
+            left: 50, url: "camera.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+                    MainContainer.empty();
+                    MainContainer.add(LoadingCameraContainer);
+                    // application.distribute("onUpdateFridgeStatus");
+                }
+            })
+        });
+
+        /******************* PROFILE BUTTON *******************/
+        let statusPageProfileButton = new Picture({
+            right: 50, url: "profile.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+                }
+            })
+        });
+
+
+        /******************* FLASH BUTTON *******************/
+        let cameraFlashButton = new Picture({
+            left: 50, url: "no_flash.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+                }
+            })
+        });
+
+        let cameraOneFlashButton = new Picture({
+            left: 50, url: "no_flash.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+                }
+            })
+        });
+
+        let cameraTwoFlashButton = new Picture({
+            left: 50, url: "no_flash.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+                }
+            })
+        });
+
+
+        /******************* CANCEL BUTTON *******************/
+        let cameraCancelButton = new Picture({
+            right: 50, url: "x.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+
+                    MainContainer.empty();
+                    MainContainer.add(FoodStatusPageContainer);
+                    application.distribute("onUpdateFridgeStatus");
+
+                }
+            })
+        });
+
+        let cameraOneCancelButton = new Picture({
+            right: 50, url: "x.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+
+                    MainContainer.empty();
+                    MainContainer.add(FoodStatusPageContainer);
+                    application.distribute("onUpdateFridgeStatus");
+
+                }
+            })
+        });
+
+        let cameraTwoCancelButton = new Picture({
+            right: 50, url: "x.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+
+                    MainContainer.empty();
+                    MainContainer.add(FoodStatusPageContainer);
+                    application.distribute("onUpdateFridgeStatus");
+
+                }
+            })
+        });
+    /******************* BUTTON CONTAINER *******************/
+    let statusPageButtonContainer = new Container({
+        left: 0, right: 0, bottom: 0, height: 70, skin: greySkin,
+        contents: [
+            statusPageHomeButton,
+            statusPageCameraButton,
+            statusPageProfileButton
+        ]
+    });
+
+    /******************* CAMERA BUTTON CONTAINER *******************/
+    let cameraButtonContainer = new Container({
+        left: 0, right: 0, bottom: 0, height: 50, skin: greySkin,
+        contents: cameraConfirmButton
+        
+    });
+
+    let cameraOneButtonContainer = new Container({
+        left: 0, right: 0, bottom: 0, height: 50, skin: greySkin,
+        contents: cameraOneConfirmButton
+        
+    });
+
+    let cameraTwoButtonContainer = new Container({
+        left: 0, right: 0, bottom: 0, height: 50, skin: greySkin,
+        contents: cameraTwoConfirmButton
+    });
+
+
+    /******************* CAMERA STATUS BUTTON CONTAINER *******************/
+    let cameraStatusButtonContainer = new Container({
+        left: 0, right: 0, bottom: 0, height: 50, skin: headerSkin,
+        contents: [cameraFlashButton, cameraCancelButton]
+        
+    });
+
+    /******************* CAMERA STATUS BUTTON CONTAINER *******************/
+    let cameraStatusOneButtonContainer = new Container({
+        left: 0, right: 0, bottom: 0, height: 50, skin: headerSkin,
+        contents: [cameraOneFlashButton, cameraOneCancelButton]
+        
+    });
+    /******************* CAMERA STATUS BUTTON CONTAINER *******************/
+    let cameraStatusTwoButtonContainer = new Container({
+        left: 0, right: 0, bottom: 0, height: 50, skin: headerSkin,
+        contents: [cameraTwoFlashButton, cameraTwoCancelButton]
+        
+    });
+
+
 
 /************************************************************************/
 /******************* LOADING PAGE IMPLEMENTATION ************************/
@@ -33,7 +260,7 @@ import Pins from "pins";
 
     /******* LOADING PIC ********/
     let loadingPic = new Picture({
-    	height: 568, url: "loading.png",
+    	height: 500, url: "loading.png",
     	active: true,
     	behavior: Behavior({
     		onTouchEnded(container, id, x, y, ticks) {
@@ -71,7 +298,9 @@ import Pins from "pins";
     	]
     });
 
+    /******************************************/
     /************ FIRST FOOD ENTRY ************/
+
     let milkPicture = new Picture({left: 3, right: 257, height: 64, url: "milk.jpeg"});
     let milkName = new Label({left: 65, right: 180, style: foodNameStyle, string: "Milk"});
     let foodOneLengthContainer = new Container({
@@ -83,7 +312,9 @@ import Pins from "pins";
     	left: 0, right: $.right, top: 0, bottom: 0, skin: $.skin,
     }));
 
-    let FoodOneExpireLabel = new StringTemplate ({ left: 145, top: 55, bottom: 10, style: expireStyle, string: "Expires in N/A days" });
+    let FoodOneExpireLabel = new StringTemplate ({ left: 145, top: 55, bottom: 10, style: expireStyle, string: "Expires in 3 days" });
+
+    /* Container for the First Entry */
     let statusPageFoodOneContainer = new Container({
     	left: 0, right: 0, top: 61, height: 70, skin: whiteSkin,
     	contents: [
@@ -93,13 +324,10 @@ import Pins from "pins";
     		FoodOneExpireLabel
     	]
     });
-    let foodOneBorderLine = new Container({
-    	left: 0, right: 0, top: 131, height: 1, skin: borderLineSkin,
-    	contents: [
-    	]
-    });
 
+    /******************************************/
     /************ SECOND FOOD ENTRY ************/
+
     let avocadoPicture = new Picture({left: 3, right: 257, height: 64, url: "avocado.jpg"});
     let avocadoName = new Label({left: 65, right: 180, style: foodNameStyle, string: "Avocado"});
     let foodTwoLengthContainer = new Container({
@@ -107,7 +335,7 @@ import Pins from "pins";
     	contents: [
     	]
     });
-    let FoodTwoExpireLabel = new StringTemplate ({ left: 145, top: 55, bottom: 10, style: expireStyle, string: "Expires in N/A days" });
+    let FoodTwoExpireLabel = new StringTemplate ({ left: 145, top: 55, bottom: 10, style: expireStyle, string: "Expires in 12 days" });
 
     /* Container for the Second Entry */
     let statusPageFoodTwoContainer = new Container({
@@ -120,51 +348,78 @@ import Pins from "pins";
     	]
     });
 
-    /********************************************/
-    /************ GENERAL COMPONENTS ************/
 
-    /* Boarder Line */
-    let foodTwoBorderLine = new Container({
-    	left: 0, right: 0, top: 202, height: 1, skin: borderLineSkin,
-    	contents: [
-    	]
+    /******************************************/
+    /************ THIRD FOOD ENTRY ************/
+
+    let ketchupPicture = new Picture({left: 3, right: 257, height: 64, url: "ketchup.jpg"});
+    let ketchupName = new Label({left: 65, right: 180, style: foodNameStyle, string: "Ketchup"});
+    let foodThreeLengthContainer = new Container({
+        left: 145, right: 5, top: 25, bottom: 25, skin: darkerGreySkin,
+        contents: [
+        ]
+    });
+    let FoodThreeExpireLabel = new StringTemplate ({ left: 145, top: 55, bottom: 10, style: expireStyle, string: "Expires in 17 days" });
+
+    /* Container for the Second Entry */
+    let statusPageFoodThreeContainer = new Container({
+        left: 0, right: 0, top: 132, height: 70, skin: whiteSkin,
+        contents:[
+            ketchupPicture,
+            ketchupName,
+            foodThreeLengthContainer,
+            FoodThreeExpireLabel
+        ]
     });
 
-    /* Buttons Implementation */
 
-        let statusPageHomeButton = new Picture({
-        	left: 140, url: "home.png",
-        	active: true,
-        	behavior: Behavior({
-        		onTouchEnded(container, id, x, y, ticks) {
-        		}
-        	})
-        });
-        let statusPageCameraButton = new Picture({
-        	left: 50, url: "camera.png",
-        	active: true,
-        	behavior: Behavior({
-        		onTouchEnded(container, id, x, y, ticks) {
-        		}
-        	})
-        });
-        let statusPageProfileButton = new Picture({
-        	right: 50, url: "profile.png",
-        	active: true,
-        	behavior: Behavior({
-        		onTouchEnded(container, id, x, y, ticks) {
-        		}
-        	})
-        });
+    /******************************************/
+    /************ FOURTH FOOD ENTRY ************/
 
-    let statusPageButtonContainer = new Container({
-    	left: 0, right: 0, bottom: 0, height: 70, skin: greySkin,
-    	contents: [
-    		statusPageHomeButton,
-    		statusPageCameraButton,
-    		statusPageProfileButton
-    	]
+    let jerkyPicture = new Picture({left: 3, right: 257, height: 64, url: "jerky.jpg"});
+    let jerkyName = new Label({left: 65, right: 180, style: foodNameStyle, string: "Jerky"});
+    let foodFourLengthContainer = new Container({
+        left: 145, right: 5, top: 25, bottom: 25, skin: darkerGreySkin,
+        contents: [
+        ]
     });
+    let FoodFourExpireLabel = new StringTemplate ({ left: 145, top: 55, bottom: 10, style: expireStyle, string: "Expires in 23 days" });
+
+    /* Container for the Second Entry */
+    let statusPageFoodFourContainer = new Container({
+        left: 0, right: 0, top: 132, height: 70, skin: whiteSkin,
+        contents:[
+            jerkyPicture,
+            jerkyName,
+            foodFourLengthContainer,
+            FoodFourExpireLabel
+        ]
+    });
+
+
+    /******************************************/
+    /************ FIFTH FOOD ENTRY ************/
+
+    let cerealPicture = new Picture({left: 3, right: 257, height: 64, url: "cereal.jpg"});
+    let cerealName = new Label({left: 65, right: 180, style: foodNameStyle, string: "Cereal"});
+    let foodFiveLengthContainer = new Container({
+        left: 145, right: 5, top: 25, bottom: 25, skin: darkerGreySkin,
+        contents: [
+        ]
+    });
+    let FoodFiveExpireLabel = new StringTemplate ({ left: 145, top: 55, bottom: 10, style: expireStyle, string: "Expires in 4 years" });
+
+    /* Container for the Second Entry */
+    let statusPageFoodFiveContainer = new Container({
+        left: 0, right: 0, top: 132, height: 70, skin: whiteSkin,
+        contents:[
+            cerealPicture,
+            cerealName,
+            foodFiveLengthContainer,
+            FoodFiveExpireLabel
+        ]
+    });
+
 
     /****************************************************/
     /************ FOOD STATUS PAGE CONTAINER ************/
@@ -181,6 +436,197 @@ import Pins from "pins";
     		statusPageButtonContainer
     	]	
     });
+
+    /*****************************************************************/
+    /************ FOOD STATUS PAGE CONTAINER AFTER CAMERA ************/
+
+    // let FoodStatusPostContainer = new Container({
+    //     left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin,
+    //     contents: [
+    //         statusPageTitleContainer,
+    //         titleBorderLine,
+    //         statusPageFoodOneContainer,
+    //         foodOneBorderLine,
+    //         statusPageFoodTwoContainer,
+    //         foodTwoBorderLine, 
+    //         statusPageFoodThreeContainer,
+    //         foodThreeBorderLine,
+    //         statusPageFoodFourContainer,
+    //         foodFourBorderLine,
+    //         statusPageFoodFiveContainer,
+    //         foodFiveBorderLine,
+    //         statusPageButtonContainer
+    //     ]   
+    // });
+
+
+/************************************************************************/
+/******************** CAMERA PAGE IMPLEMENTATION ************************/
+/************************************************************************/
+
+    /******* LOADING CAMERA -- FIRST STEP ********/
+        /******* LOADING CAMERA ********/
+        let cameraStatusContainer = new Container({
+            left: 0, right: 0, top: 0, height: 40, skin: headerSkin,
+            contents: cameraStatusButtonContainer
+        });
+
+        let cameraStatusOneContainer = new Container({
+            left: 0, right: 0, top: 0, height: 40, skin: headerSkin,
+            contents: cameraStatusOneButtonContainer
+        });
+
+        let cameraStatusTwoContainer = new Container({
+            left: 0, right: 0, top: 0, height: 40, skin: headerSkin,
+            contents: cameraStatusTwoButtonContainer
+        });
+
+        let loadingCamera = new Picture({
+            height: 500, url: "camera_preview.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+                    MainContainer.empty();
+                    MainContainer.add(RotatingCameraContainer);
+                    // application.distribute("onUpdateFridgeStatus");
+                }
+            })
+        });
+
+        /******* LOADING CAMERA CONTAINER ********/
+        let LoadingCameraContainer = new Container({
+            left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin,
+            contents: [
+                loadingCamera,
+                cameraStatusContainer,
+                cameraButtonContainer
+            ]   
+        });
+
+
+    /******* ROTATING CAMERA -- SECOND STEP ********/
+        /******* ROTATING CAMERA ********/
+        let rotatingCamera = new Picture({
+            height: 500, url: "camera_preview_two.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+                    MainContainer.empty();
+                    MainContainer.add(ConfirmingCameraContainer);
+                    // application.distribute("onUpdateFridgeStatus");
+                }
+            })
+        });
+
+        /******* ROTATING CAMERA CONTAINER ********/
+        let RotatingCameraContainer = new Container({
+            left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin,
+            contents: [
+                rotatingCamera,
+                cameraStatusOneContainer,
+                cameraOneButtonContainer
+            ]   
+        });
+
+
+    /******* CONFIRMING CAMERA -- THIRD STEP ********/
+        /******* CONFIRMING CAMERA ********/
+        let confirmingCamera = new Picture({
+            height: 500, url: "camera_confirm.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+                    MainContainer.empty();
+                    MainContainer.add(FoodStatusPageContainer);
+                    application.distribute("onUpdateFridgeStatus");
+                }
+            })
+        });
+
+        /******* CONFIRMING CAMERA CONTAINER ********/
+        let ConfirmingCameraContainer = new Container({
+            left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin,
+            contents: [
+                confirmingCamera,
+                cameraStatusTwoContainer,
+                cameraTwoButtonContainer
+            ]   
+        });
+
+
+
+/********************************************************************************/
+/******************** CAMERA CONFIRM PAGE IMPLEMENTATION ************************/
+/********************************************************************************/
+
+
+    // confirmation page one 
+        let postCameraConfirm = new Picture({
+            height: 500, url: "post_camera_confirm_one.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+                    MainContainer.empty();
+                    MainContainer.add(postCameraConfirmOneContainer);
+                    // application.distribute("onUpdateFridgeStatus");
+                }
+            })
+        });
+
+        let postCameraConfirmContainer = new Container({
+            left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin,
+            contents: [
+                postCameraConfirm
+                // cameraStatusContainer,
+                // cameraButtonContainer
+            ]   
+        });
+
+    // confirmation page two 
+        let postCameraConfirmOne = new Picture({
+            height: 500, url: "post_camera_confirm_two.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+                    MainContainer.empty();
+                    MainContainer.add(postCameraConfirmTwoContainer);
+                    // application.distribute("onUpdateFridgeStatus");
+                }
+            })
+        });
+
+        let postCameraConfirmOneContainer = new Container({
+            left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin,
+            contents: [
+                postCameraConfirmOne
+                // cameraStatusContainer,
+                // cameraButtonContainer
+            ]   
+        });
+
+    // confirmation page three 
+        let postCameraConfirmTwo = new Picture({
+            height: 500, url: "post_camera_confirm_three.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+                    // MainContainer.empty();
+                    // MainContainer.add(postCameraConfirmTwoContainer);
+                    // application.distribute("onUpdateFridgeStatus");
+                }
+            })
+        });
+
+        let postCameraConfirmTwoContainer = new Container({
+            left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin,
+            contents: [
+                postCameraConfirmTwo
+                // cameraStatusContainer,
+                // cameraButtonContainer
+            ]   
+        });
+
+
 
 /*****************************************************************************/
 /****************** Main Container and Application Behavior ******************/
