@@ -39,36 +39,51 @@ import Pins from "pins";
     });
 
     /* Boarder Line */
-    let foodTwoBorderLine = new Container({
-        left: 0, right: 0, top: 202, height: 1, skin: borderLineSkin,
+    let foodPCOneBorderLine = new Container({
+        left: 0, right: 0, top: 131, height: 1, skin: borderLineSkin,
         contents: [
         ]
     });
 
     /* Boarder Line */
+    let foodTwoBorderLine = new Container({
+        left: 0, right: 0, top: 200, height: 1, skin: borderLineSkin,
+        contents: [
+        ]
+    });
+
+    /* Boarder Line */
+    let foodPCTwoBorderLine = new Container({
+        left: 0, right: 0, top: 200, height: 1, skin: borderLineSkin,
+        contents: [
+        ]
+    });
+
+
+    /* Boarder Line */
     let foodThreeBorderLine = new Container({
-        left: 0, right: 0, top: 227, height: 1, skin: borderLineSkin,
+        left: 0, right: 0, top: 270, height: 1, skin: borderLineSkin,
         contents: [
         ]
     });
 
     /* Boarder Line */
     let foodFourBorderLine = new Container({
-        left: 0, right: 0, top: 254, height: 1, skin: borderLineSkin,
+        left: 0, right: 0, top: 340, height: 1, skin: borderLineSkin,
         contents: [
         ]
     });
 
     /* Boarder Line */
     let foodFiveBorderLine = new Container({
-        left: 0, right: 0, top: 281, height: 1, skin: borderLineSkin,
+        left: 0, right: 0, top: 410, height: 1, skin: borderLineSkin,
         contents: [
         ]
     });
 
 
     /* Buttons Implementation */
-        /******************* HOME BUTTON *******************/
+        /******************* HOME BUTTON (2) *******************/
         let statusPageHomeButton = new Picture({
             left: 140, url: "home.png",
             active: true,
@@ -78,7 +93,15 @@ import Pins from "pins";
             })
         });
 
-        /******************* HOME BUTTON *******************/
+        let statusPostCameraPageHomeButton = new Picture({
+            left: 140, url: "home.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+                }
+            })
+        });
+        /******************* CAMERA CONFIRM BUTTON (3) *******************/
         let cameraConfirmButton = new Picture({
             left: 140, url: "camera_confirm_button.png",
             active: true,
@@ -108,7 +131,7 @@ import Pins from "pins";
            })
         });
 
-        /******************* CAMERA BUTTON *******************/
+        /******************* CAMERA BUTTON (2) *******************/
         let statusPageCameraButton = new Picture({
             left: 50, url: "camera.png",
             active: true,
@@ -121,7 +144,19 @@ import Pins from "pins";
             })
         });
 
-        /******************* PROFILE BUTTON *******************/
+        let statusPostCameraPageCameraButton = new Picture({
+            left: 50, url: "camera.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+                    MainContainer.empty();
+                    MainContainer.add(LoadingCameraContainer);
+                    // application.distribute("onUpdateFridgeStatus");
+                }
+            })
+        });
+
+        /******************* PROFILE BUTTON (2) *******************/
         let statusPageProfileButton = new Picture({
             right: 50, url: "profile.png",
             active: true,
@@ -131,8 +166,16 @@ import Pins from "pins";
             })
         });
 
+        let statusPostCameraPageProfileButton = new Picture({
+            right: 50, url: "profile.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+                }
+            })
+        });
 
-        /******************* FLASH BUTTON *******************/
+        /******************* FLASH BUTTON (3) *******************/
         let cameraFlashButton = new Picture({
             left: 50, url: "no_flash.png",
             active: true,
@@ -161,17 +204,15 @@ import Pins from "pins";
         });
 
 
-        /******************* CANCEL BUTTON *******************/
+        /******************* CANCEL BUTTON (3) *******************/
         let cameraCancelButton = new Picture({
             right: 50, url: "x.png",
             active: true,
             behavior: Behavior({
                 onTouchEnded(container, id, x, y, ticks) {
-
                     MainContainer.empty();
                     MainContainer.add(FoodStatusPageContainer);
                     application.distribute("onUpdateFridgeStatus");
-
                 }
             })
         });
@@ -181,11 +222,9 @@ import Pins from "pins";
             active: true,
             behavior: Behavior({
                 onTouchEnded(container, id, x, y, ticks) {
-
                     MainContainer.empty();
                     MainContainer.add(FoodStatusPageContainer);
                     application.distribute("onUpdateFridgeStatus");
-
                 }
             })
         });
@@ -195,14 +234,14 @@ import Pins from "pins";
             active: true,
             behavior: Behavior({
                 onTouchEnded(container, id, x, y, ticks) {
-
                     MainContainer.empty();
                     MainContainer.add(FoodStatusPageContainer);
                     application.distribute("onUpdateFridgeStatus");
-
                 }
             })
         });
+
+
     /******************* BUTTON CONTAINER *******************/
     let statusPageButtonContainer = new Container({
         left: 0, right: 0, bottom: 0, height: 70, skin: greySkin,
@@ -213,7 +252,17 @@ import Pins from "pins";
         ]
     });
 
-    /******************* CAMERA BUTTON CONTAINER *******************/
+    let statusPostCameraPageButtonContainer = new Container({
+        left: 0, right: 0, bottom: 0, height: 70, skin: greySkin,
+        contents: [
+            statusPostCameraPageHomeButton,
+            statusPostCameraPageCameraButton,
+            statusPostCameraPageProfileButton
+        ]
+    });
+
+
+    /******************* CAMERA BUTTON CONTAINER (3) *******************/
     let cameraButtonContainer = new Container({
         left: 0, right: 0, bottom: 0, height: 50, skin: greySkin,
         contents: cameraConfirmButton
@@ -232,20 +281,18 @@ import Pins from "pins";
     });
 
 
-    /******************* CAMERA STATUS BUTTON CONTAINER *******************/
+    /******************* CAMERA STATUS BUTTON CONTAINER (3) *******************/
     let cameraStatusButtonContainer = new Container({
         left: 0, right: 0, bottom: 0, height: 50, skin: headerSkin,
         contents: [cameraFlashButton, cameraCancelButton]
         
     });
 
-    /******************* CAMERA STATUS BUTTON CONTAINER *******************/
     let cameraStatusOneButtonContainer = new Container({
         left: 0, right: 0, bottom: 0, height: 50, skin: headerSkin,
         contents: [cameraOneFlashButton, cameraOneCancelButton]
         
     });
-    /******************* CAMERA STATUS BUTTON CONTAINER *******************/
     let cameraStatusTwoButtonContainer = new Container({
         left: 0, right: 0, bottom: 0, height: 50, skin: headerSkin,
         contents: [cameraTwoFlashButton, cameraTwoCancelButton]
@@ -285,6 +332,7 @@ import Pins from "pins";
 /************************************************************************/
 
     /************ STATUS AND TITLE CONTAINER ************/
+    // PRE-CAMERA
     let statusPageTitle = new Label({height: 38, top: 11, style: titleHeaderStyle, string: "Fridge Status"})
     let statusPageTitleContainer = new Container({
     	left: 0, right: 0, top: 0, height: 60, skin: headerSkin,
@@ -292,11 +340,27 @@ import Pins from "pins";
     		statusPageTitle
     	]
     });
+    // POST-CAMERA
+    let statusPagePostCameraTitle = new Label({height: 38, top: 11, style: titleHeaderStyle, string: "Fridge Status"})
+    let statusPagePostCameraTitleContainer = new Container({
+        left: 0, right: 0, top: 0, height: 60, skin: headerSkin,
+        contents: [
+            statusPagePostCameraTitle
+        ]
+    });
+
     let titleBorderLine = new Container({
     	left: 0, right: 0, top: 60, height: 1, skin: borderLineSkin,
     	contents: [
     	]
     });
+
+    let titlePostCameraBorderLine = new Container({
+        left: 0, right: 0, top: 60, height: 1, skin: borderLineSkin,
+        contents: [
+        ]
+    });
+
 
     /******************************************/
     /************ FIRST FOOD ENTRY ************/
@@ -325,6 +389,30 @@ import Pins from "pins";
     	]
     });
 
+    // post-camera
+    let milkPCPicture = new Picture({left: 3, right: 257, height: 64, url: "milk.jpeg"});
+    let milkPCName = new Label({left: 65, right: 180, style: foodNameStyle, string: "Milk"});
+    let foodPCOneLengthContainer = new Container({
+        left: 145, right: 5, top: 25, bottom: 25, skin: darkerGreySkin,
+        contents: [
+        ]
+    });
+
+    let FoodPCOneExpireLabel = new StringTemplate ({ left: 145, top: 55, bottom: 10, style: expireStyle, string: "Expires in 3 days" });
+
+
+
+    /* Container for the First Entry Post Camera */
+    let statusPostCameraPageFoodOneContainer = new Container({
+        left: 0, right: 0, top: 61, height: 70, skin: whiteSkin,
+        contents: [
+            milkPCPicture,
+            milkPCName,
+            foodPCOneLengthContainer,
+            FoodPCOneExpireLabel
+        ]
+    });
+
     /******************************************/
     /************ SECOND FOOD ENTRY ************/
 
@@ -348,6 +436,29 @@ import Pins from "pins";
     	]
     });
 
+    // post-camera
+    let avocadoPCPicture = new Picture({left: 3, right: 257, height: 64, url: "avocado.jpg"});
+    let avocadoPCName = new Label({left: 65, right: 180, style: foodNameStyle, string: "Avocado"});
+    let foodPCTwoLengthContainer = new Container({
+        left: 145, right: 5, top: 25, bottom: 25, skin: darkerGreySkin,
+        contents: [
+        ]
+    });
+    let FoodPCTwoExpireLabel = new StringTemplate ({ left: 145, top: 55, bottom: 10, style: expireStyle, string: "Expires in 12 days" });
+
+
+
+    /* Container for the Second Entry */
+    let statusPostCameraPageFoodTwoContainer = new Container({
+        left: 0, right: 0, top: 132, height: 70, skin: whiteSkin,
+        contents:[
+            avocadoPCPicture,
+            avocadoPCName,
+            foodPCTwoLengthContainer,
+            FoodPCTwoExpireLabel
+        ]
+    });
+
 
     /******************************************/
     /************ THIRD FOOD ENTRY ************/
@@ -363,7 +474,7 @@ import Pins from "pins";
 
     /* Container for the Second Entry */
     let statusPageFoodThreeContainer = new Container({
-        left: 0, right: 0, top: 132, height: 70, skin: whiteSkin,
+        left: 0, right: 0, top: 201, height: 70, skin: whiteSkin,
         contents:[
             ketchupPicture,
             ketchupName,
@@ -387,7 +498,7 @@ import Pins from "pins";
 
     /* Container for the Second Entry */
     let statusPageFoodFourContainer = new Container({
-        left: 0, right: 0, top: 132, height: 70, skin: whiteSkin,
+        left: 0, right: 0, top: 272, height: 70, skin: whiteSkin,
         contents:[
             jerkyPicture,
             jerkyName,
@@ -411,7 +522,7 @@ import Pins from "pins";
 
     /* Container for the Second Entry */
     let statusPageFoodFiveContainer = new Container({
-        left: 0, right: 0, top: 132, height: 70, skin: whiteSkin,
+        left: 0, right: 0, top: 342, height: 70, skin: whiteSkin,
         contents:[
             cerealPicture,
             cerealName,
@@ -440,32 +551,38 @@ import Pins from "pins";
     /*****************************************************************/
     /************ FOOD STATUS PAGE CONTAINER AFTER CAMERA ************/
 
-    // let FoodStatusPostContainer = new Container({
-    //     left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin,
-    //     contents: [
-    //         statusPageTitleContainer,
-    //         titleBorderLine,
-    //         statusPageFoodOneContainer,
-    //         foodOneBorderLine,
-    //         statusPageFoodTwoContainer,
-    //         foodTwoBorderLine, 
-    //         statusPageFoodThreeContainer,
-    //         foodThreeBorderLine,
-    //         statusPageFoodFourContainer,
-    //         foodFourBorderLine,
-    //         statusPageFoodFiveContainer,
-    //         foodFiveBorderLine,
-    //         statusPageButtonContainer
-    //     ]   
-    // });
+    let FoodStatusPostContainer = new Container({
+        left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin,
+        contents: [
+            statusPagePostCameraTitleContainer,
+            titlePostCameraBorderLine,
+
+            statusPostCameraPageFoodOneContainer,
+            foodPCOneBorderLine,
+
+            statusPostCameraPageFoodTwoContainer,
+            foodPCTwoBorderLine, 
+
+            statusPageFoodThreeContainer,
+            foodThreeBorderLine,
+
+            statusPageFoodFourContainer,
+            foodFourBorderLine,
+
+            statusPageFoodFiveContainer,
+            foodFiveBorderLine,
+
+            statusPostCameraPageButtonContainer
+        ]   
+    });
 
 
 /************************************************************************/
 /******************** CAMERA PAGE IMPLEMENTATION ************************/
 /************************************************************************/
 
-    /******* LOADING CAMERA -- FIRST STEP ********/
-        /******* LOADING CAMERA ********/
+
+        /******* LOADING CAMERA STATUS CONTAINER (3) ********/
         let cameraStatusContainer = new Container({
             left: 0, right: 0, top: 0, height: 40, skin: headerSkin,
             contents: cameraStatusButtonContainer
@@ -481,6 +598,8 @@ import Pins from "pins";
             contents: cameraStatusTwoButtonContainer
         });
 
+
+    /******* LOADING CAMERA -- FIRST STEP ********/
         let loadingCamera = new Picture({
             height: 500, url: "camera_preview.png",
             active: true,
@@ -536,9 +655,9 @@ import Pins from "pins";
             active: true,
             behavior: Behavior({
                 onTouchEnded(container, id, x, y, ticks) {
-                    MainContainer.empty();
-                    MainContainer.add(FoodStatusPageContainer);
-                    application.distribute("onUpdateFridgeStatus");
+                    // MainContainer.empty();
+                    // MainContainer.add(FoodStatusPageContainer);
+                    // application.distribute("onUpdateFridgeStatus");
                 }
             })
         });
@@ -560,7 +679,7 @@ import Pins from "pins";
 /********************************************************************************/
 
 
-    // confirmation page one 
+    /******************** CONFIRMATION PAGE ONE ************************/
         let postCameraConfirm = new Picture({
             height: 500, url: "post_camera_confirm_one.png",
             active: true,
@@ -582,7 +701,7 @@ import Pins from "pins";
             ]   
         });
 
-    // confirmation page two 
+    /******************** CONFIRMATION PAGE TWO ************************/
         let postCameraConfirmOne = new Picture({
             height: 500, url: "post_camera_confirm_two.png",
             active: true,
@@ -604,15 +723,15 @@ import Pins from "pins";
             ]   
         });
 
-    // confirmation page three 
+    /******************** CONFIRMATION PAGE THREE ************************/
         let postCameraConfirmTwo = new Picture({
             height: 500, url: "post_camera_confirm_three.png",
             active: true,
             behavior: Behavior({
                 onTouchEnded(container, id, x, y, ticks) {
-                    // MainContainer.empty();
-                    // MainContainer.add(postCameraConfirmTwoContainer);
-                    // application.distribute("onUpdateFridgeStatus");
+                    MainContainer.empty();
+                    MainContainer.add(FoodStatusPostContainer);
+                    application.distribute("onUpdateFridgeStatus");
                 }
             })
         });
