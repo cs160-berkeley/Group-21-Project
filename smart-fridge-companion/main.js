@@ -1,10 +1,15 @@
+
 import Pins from "pins";
+import {
+    Button,
+    ButtonBehavior
+} from "buttons";
 
 /************************************************************************/
 /************************** SKINS AND STYLES ****************************/
 /************************************************************************/
 
-    /************ SKINS ************/
+    /************ SKINS (1) ************/
         let headerSkin = new Skin ({fill: '#45ADA8' });
         let whiteSkin = new Skin ({fill: 'white' });
         let lightGreenSkin = new Skin ({fill: '#E5F7E9' });
@@ -15,10 +20,28 @@ import Pins from "pins";
         let yellowSkin = new Skin ({fill: '#F0F89E' });
         let expireGreenSkin = new Skin ({fill: '#B8E986' });
 
-    /************ STYLES ************/
+    /************ SKINS (2) ************/
+        let lightBlueSkin = new Skin ({fill: '#40E0D0' });
+        let whiteSmokeSkin = new Skin ({fill: '#F5F5F5' });
+        let darkGreySkin = new Skin ({fill: '#808080' });
+        let lightGreySkin = new Skin ({fill: '#D8D8D8' });
+
+    /************ STYLES (1) ************/
         let titleHeaderStyle = new Style({ font: "bold 24px Copperplate Gothic Bold", color: "white" });
         let foodNameStyle = new Style({ font: "20px Didot", color: "black" });
         let expireStyle = new Style({ font: "14px Didot", color: "black" });
+
+    /************ STYLES (2) ************/
+        let messageStyle = new Style({ font: "20px", color: "white" });
+        let messageSentStyle = new Style({ font: "20px", color: "black" });
+        let askStyle = new Style({ font: "18px", color: "black" });
+
+        /* Item Detail Style */
+        let itemStyle = new Style({ font: "20px", color: "white" });
+        let itemTitleStyle = new Style({ font: "20px", color: "black" });
+        let itemDetailStyle = new Style({ font: "20px", color: "black" });
+        let itemExpireStyle = new Style({ font: "14px", color: "black" });
+
 
     /******* STRING TEMPLATE ********/
         var StringTemplate = Label.template($ => ({
@@ -26,6 +49,84 @@ import Pins from "pins";
             style: $.style,
             string: $.string
         }));
+
+
+
+/************************************************************************/
+/************************** BUTTON TEMPLATES ****************************/
+/************************************************************************/
+
+    /* Button Templates */
+    let messageButtonTemplate = Button.template($ => ({
+        left: 30, right: 30, height: 40, width: 60,
+        contents: [
+            Label($, {left:0, right:0, height:40, string: $.text, style: messageStyle})
+        ],
+        Behavior: class extends ButtonBehavior {
+            onTap(button) {
+                application.invoke(new Message("/send"));
+            }
+        }
+    }));
+
+    let messageSentButtonTemplate = Button.template($ => ({
+        left: 30, right: 30, height: 40, width: 60,
+        contents: [
+            Label($, {left:0, right:0, height:40, string: $.text, style: messageStyle})
+        ],
+    }));
+
+    let messageButtonTemplate2 = Button.template($ => ({
+        left: 30, right: 30, height: 40, width: 60,
+        contents: [
+            Label($, {left:0, right:0, height:40, string: $.text, style: messageStyle})
+        ],
+        Behavior: class extends ButtonBehavior {
+            onTap(button) {
+                application.invoke(new Message("/send2"));
+            }
+        }
+    }));
+
+/************************************************************************/
+/******************************* BUTTON *********************************/
+/************************************************************************/
+
+    /* Buttons */
+    var throwButton = new messageButtonTemplate({text: "Can I throw out 'Milk'?"});
+    var throwSentButton = new messageSentButtonTemplate({text: "Message Sent"});
+    var useButton = new messageButtonTemplate2({text: "Can I use 'Milk'?"});
+    var messagingButton = new messageButtonTemplate({text: "Message Sent"});
+    var messageSent = new Label({string: "Message Sent", style: messageSentStyle});
+
+/************************************************************************/
+/****************************** HANDLER *********************************/
+/************************************************************************/
+
+    /* Handlers */
+    Handler.bind("/send", Behavior({
+        onInvoke: function(handler, message) {
+            throwContainer.remove(throwButton);
+            throwContainer.add(throwSentButton);
+            handler.wait(1500);
+        },
+        onComplete: function(handler, message) {
+            throwContainer.remove(throwSentButton);
+            throwContainer.add(throwButton);
+        },
+    }));
+
+    Handler.bind("/send2", Behavior({
+        onInvoke: function(handler, message) {
+            useContainer.remove(useButton);
+            useContainer.add(messageSent);
+            handler.wait(1500);
+        },
+        onComplete: function(handler, message) {
+            useContainer.remove(messageSent);
+            useContainer.add(useButton);
+        },
+    }));
 
 
 /************************************************************************/
@@ -174,6 +275,22 @@ import Pins from "pins";
                 }
             })
         });
+        /******************* ITEM BACK BUTTON *******************/
+
+
+        let itemBackButton = new Picture({
+            left: 5, url: "back.png",
+            active: true,
+            behavior: Behavior({
+                onTouchEnded(container, id, x, y, ticks) {
+                    MainContainer.empty();
+                    MainContainer.add(FoodStatusPageContainer);
+                    application.distribute("onUpdateFridgeStatus");
+                }
+            })
+
+
+        });
 
         /******************* FLASH BUTTON (3) *******************/
         let cameraFlashButton = new Picture({
@@ -252,6 +369,7 @@ import Pins from "pins";
         ]
     });
 
+
     let statusPostCameraPageButtonContainer = new Container({
         left: 0, right: 0, bottom: 0, height: 70, skin: greySkin,
         contents: [
@@ -285,6 +403,12 @@ import Pins from "pins";
     let cameraStatusButtonContainer = new Container({
         left: 0, right: 0, bottom: 0, height: 50, skin: headerSkin,
         contents: [cameraFlashButton, cameraCancelButton]
+        
+    });
+
+    let itemDetailButtonContainer = new Container({
+        left: 0, right: 0, bottom: 0, height: 40, skin: headerSkin,
+        contents: [itemBackButton, new Label({string: "Milk", style: messageSentStyle})]
         
     });
 
@@ -340,6 +464,16 @@ import Pins from "pins";
     		statusPageTitle
     	]
     });
+
+    // DETAIL 
+    let itemDetailTitle = new Label({height: 38, top: 11, style: titleHeaderStyle, string: "Item Detail"})
+    var statusItemDetailContainer = new Container({
+        left: 0, right: 0, top: 0, height: 60, skin: headerSkin,
+        contents: [
+            itemDetailTitle
+        ]
+    });
+
     // POST-CAMERA
     let statusPagePostCameraTitle = new Label({height: 38, top: 11, style: titleHeaderStyle, string: "Fridge Status"})
     let statusPagePostCameraTitleContainer = new Container({
@@ -386,7 +520,16 @@ import Pins from "pins";
     		milkName,
     		foodOneLengthContainer,
     		FoodOneExpireLabel
-    	]
+    	],
+        active: true,
+        behavior: Behavior({
+            onTouchEnded(container, id, x, y, ticks) {
+                MainContainer.empty();
+                MainContainer.add(itemScreenContainer);
+                // application.distribute("onUpdateFridgeStatus");
+            }
+        })
+
     });
 
     // post-camera
@@ -578,6 +721,84 @@ import Pins from "pins";
 
 
 /************************************************************************/
+/************************ ITEM IMPLEMENTATION ***************************/
+/************************************************************************/
+
+
+
+    /* Item Detail Top Bar Container */
+    var itemTitleContainer = new Container({
+        left: 0, right: 0, top: 0, height: 60, skin: lightBlueSkin,
+        contents: [
+            new Label({height: 38, top: 11, left: 17, style: itemStyle, string: "<"}),
+            new Label({height: 38, top: 11, style: itemStyle, string: "Milk"}),
+        ]
+    });
+
+
+    /* Item Detail Container */
+    let milkPictureTwo = new Picture({top:50, left: 50, right: 50, height: 100, url: "cow.jpg"});
+
+    let milkColum = new Column({top: 0, bottom: 0, right: 15, contents: [
+                    new Label({left: 25, string: "Milk", style: itemTitleStyle}),
+                    new Label({left: 25, string: "Communal Food", style: itemDetailStyle}),
+                    new Label({left: 25, string: "Expires in 1 day", style: itemExpireStyle}),
+                ]});
+
+    let milkLine =  new Line({
+                left: 0, right: 0, 
+                contents: [ milkColum ] });
+
+    let itemDetailContainer = new Container({
+        left: 0, right: 0, top: 20, bottom: 0, height: 80,
+        contents: milkLine
+    });
+
+    var throwContainer = new Container({
+        left: 0, right: 0, skin: whiteSkin,
+        contents: [
+            throwButton
+        ]
+    });
+
+    var useContainer = new Container({
+        left: 0, right: 0, skin: whiteSkin,
+        contents: [
+            useButton
+        ]
+    });
+
+
+    /* "Ask your Roommates" Container */
+    var messageContainer = new Column({
+        left: 0, right: 0,  bottom: 100, height: 100, skin: whiteSkin,
+        contents: [
+            new Label({left: 15, top: 15, height: 40, string: "Ask your Roommates:", style: askStyle}),
+            throwContainer,
+            new Container({height: 15}),
+            useContainer
+        ]
+    });
+
+        let itemStatusContainer = new Container({
+            left: 0, right: 0, top: 0, height: 40, skin: headerSkin,
+            contents: itemDetailButtonContainer
+        });
+
+
+    let itemScreenContainer = new Container({
+        left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin,
+        contents: [        
+            messageContainer,
+            itemStatusContainer,
+            itemDetailContainer,
+            milkPictureTwo
+            
+        ]   
+    });
+
+
+/************************************************************************/
 /******************** CAMERA PAGE IMPLEMENTATION ************************/
 /************************************************************************/
 
@@ -671,6 +892,7 @@ import Pins from "pins";
                 cameraTwoButtonContainer
             ]   
         });
+
 
 
 
