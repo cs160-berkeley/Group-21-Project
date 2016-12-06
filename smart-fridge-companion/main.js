@@ -111,33 +111,14 @@ import {
 /****************************** HANDLER *********************************/
 /************************************************************************/
 
-    /* Handlers */
-    /**Handler.bind("/send", Behavior({
-        onInvoke: function(handler, message) {
-            throwContainer.remove(throwButton);
-            throwContainer.add(throwOutSentButton);
-            handler.wait(1500);
-        },
-        onComplete: function(handler, message) {
-            throwContainer.remove(throwSentButton);
-            throwContainer.add(throwButton);
-        },
-    }));
-
-    Handler.bind("/send2", Behavior({
-        onInvoke: function(handler, message) {
-            useContainer.remove(useButton);
-            useContainer.add(useSentButton);
-            handler.wait(1500);
-        },
-        onComplete: function(handler, message) {
-            useContainer.remove(messageSent);
-            useContainer.add(useButton);
-        },
-    }));**/
     var deviceURL = "";
     Handler.bind("/discover", Behavior({	    onInvoke: function(handler, message){	        deviceURL = JSON.parse(message.requestText).url;	    }	}));	Handler.bind("/forget", Behavior({	    onInvoke: function(handler, message){	        deviceURL = "";	    }	}));
-    
+	
+	Handler.bind("/notifyThrow", {		onInvoke: function(handler, message) {			throwOkayContainer.remove(defaultThrowOkayContainer);			throwOkayContainer.add(profilePageFoodOneContainer);
+			throwOkayContainer.add(new borderLine()),		}	});
+	
+	Handler.bind("/notifyUse", {		onInvoke: function(handler, message) {			consumeOkayContainer.remove(defaultConsumeOkayContainer);			consumeOkayContainer.add(profilePageFoodOneContainer);
+			consumeOkayContainer.add(new borderLine()),		}	});
 
 
 /************************************************************************/
@@ -274,6 +255,9 @@ import {
             active: true,
             behavior: Behavior({
                 onTouchEnded(container, id, x, y, ticks) {
+                    MainContainer.empty();
+                    MainContainer.add(profileScreenContainer);
+                    // application.distribute("onUpdateFridgeStatus");
                 }
             })
         }));
@@ -833,6 +817,7 @@ import {
                 //useContainer.remove(milkUseDarkenButton);
                 //if (milkClick2 < 1) {
 	                container.add(new useMessageSentTemplate());
+	                if (deviceURL != "") new MessageWithObject(deviceURL + "askUse", "Test2").invoke();
 	            //}
 	            milkClick2++;
             }
@@ -926,6 +911,70 @@ import {
             new statusPageButtonContainer(),
         ]
     });
+    
+    
+/************************************************************************/
+/************************* PROFILE PAGE ********************************/
+/************************************************************************/
+    let headerContainer = Container.template($ => ({left: 0, right: 0, top: 0, height: 40, skin: headerSkin, contents: [new Label({left: 0, right: 0, string: $.text, style: itemStyle})]}));
+    let borderLine = Container.template($ => ({
+        left: 0, right: 0, top: 0, height: 1, skin: borderLineSkin,
+        contents: [
+        ]
+    }));
+    /* Container for the First Entry */
+    let FoodOneExpireLabel2 = new StringTemplate ({ left: 145, top: 55, bottom: 10, style: expireStyle, string: "Expires in N/A days" });
+    
+    var defaultConsumeOkayContainer = new Container({left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin, contents:[new Label({left: 0, right: 0, string: "No Items", style: itemDetailStyle})]});
+    var consumeOkayContainer = new Column({
+		left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin,
+		contents: [
+			new headerContainer({text: "Okay to Consume:"}),
+			defaultConsumeOkayContainer,
+		]
+	})
+		
+    let foodOneLengthContainer3 = new Container({
+    	left: 145, right: 5, top: 25, bottom: 25, skin: darkerGreySkin,
+    	contents: [
+    	]
+    });
+    
+    let profilePageFoodOneContainer = new Container({
+    	left: 0, right: 0, /*top: 61,*/ height: 70, skin: whiteSkin,
+    	contents: [
+    		new Picture({left: 3, right: 257, height: 64, url: "milk.jpeg"}),
+    		new Label({left: 65, right: 180, style: foodNameStyle, string: "Milk"}),
+    		foodOneLengthContainer3,
+    		FoodOneExpireLabel2,
+    	],
+    });
+    /*****************/
+
+	var notifContainer = new Column({
+		left: 0, right: 0, top: 0, height: 120, skin: whiteSkin,
+		contents: [
+			new itemStatusContainer({item: "Notifications:"}),
+			new Container({left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin, contents:[new Label({left: 0, right: 0, string: "No Notifications", style: itemDetailStyle})]}),
+		]
+	});
+	var defaultThrowOkayContainer = new Container({left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin, contents:[new Label({left: 0, right: 0, string: "No Items", style: itemDetailStyle})]})
+	var throwOkayContainer = new Column({
+		left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin,
+		contents: [ 
+			new headerContainer({text: "Okay to Throw Out:"}),
+			defaultThrowOkayContainer,
+		]
+	});
+	
+	let profileScreenContainer = new Column({
+		left: 0, right: 0, top: 0, bottom:0, skin: whiteSkin,
+		contents: [
+			notifContainer,
+			throwOkayContainer,
+			consumeOkayContainer,
+		]
+	});
 
 /************************************************************************/
 /******************** CAMERA PAGE IMPLEMENTATION ************************/
@@ -1113,8 +1162,10 @@ import {
     let remotePins;
     class AppBehavior extends Behavior {
     	onDisplayed(application) {        	application.discover("smart-fridge-device.project.kinoma.marvell.com");    	}
-    	onQuit(application) {        	application.forget("smart-fridge-device.project.kinoma.marvell.com");    	}
+    	onQuit(application) {        	application.forget("smart-fridge-device.project.kinoma.marvell.com");
+        	application.shared = false;    	}
         onLaunch(application) {
+        	application.shared = true;
             application.add(MainContainer);
             let discoveryInstance = Pins.discover(
             	connectionDesc => {
@@ -1137,15 +1188,19 @@ import {
         			FoodOneExpireLabel.string = "Expires in " + ((1 - result) * 30).toFixed(1) + " days.";
         			foodOneLengthContainer.empty();
         			foodOneLengthContainer2.empty();
+        			foodOneLengthContainer3.empty();
         			if (result >= 0.67) {
         				foodOneLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: redSkin}));
         				foodOneLengthContainer2.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: redSkin}));
+        				foodOneLengthContainer3.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: redSkin}));
         			} else if (result >= 0.33 && result < 0.67) {
         				foodOneLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: yellowSkin}));
         				foodOneLengthContainer2.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: yellowSkin}));
+        				foodOneLengthContainer3.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: yellowSkin}));
         			} else {
         				foodOneLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: expireGreenSkin}));
         				foodOneLengthContainer2.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: expireGreenSkin}));
+        				foodOneLengthContainer3.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: expireGreenSkin}));
         			}
         		})
         		remotePins.repeat("/FoodTwo/read", 10, function(result) {
