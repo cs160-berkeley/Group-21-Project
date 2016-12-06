@@ -252,20 +252,44 @@ class AppBehavior extends Behavior {
     application.discover("smart-fridge-companion.project.kinoma.marvell.com");//
       application.shared = true; //added
         Pins.configure({
-            FoodOne: {
+            Milk: {
               require: "Analog",
               pins: {
-                 power: {pin: 58, voltage: 3.3, type: "Power"},
-                 ground: {pin: 61, type: "Ground"},
+                 power: {pin: 66, voltage: 3.3, type: "Power"},
+                 ground: {pin: 65, type: "Ground"},
                  analog: {pin: 55, direction: "input"},
               }
             },
-            FoodTwo: {
+            Avocado: {
               require: "Analog",
               pins: {
-                power: {pin: 58, voltage: 3.3, type: "Power"},
-                  ground: {pin: 61, type: "Ground"},
+                power: {pin: 66, voltage: 3.3, type: "Power"},
+                  ground: {pin: 65, type: "Ground"},
                   analog: {pin: 54, direction: "input"},
+              }
+            },
+            Apple: {
+              require: "Analog",
+              pins: {
+                power: {pin: 66, voltage: 3.3, type: "Power"},
+                ground: {pin: 65, type: "Ground"},
+                analog: {pin: 53, direction: "input"},
+              }
+            },
+            Banana: {
+              require: "Analog",
+              pins: {
+                power: {pin: 66, voltage: 3.3, type: "Power"},
+                ground: {pin: 65, type: "Ground"},
+                analog: {pin: 52, direction: "input"},
+              }
+            },
+            Onion: {
+              require: "Analog",
+              pins: {
+                power: {pin: 66, voltage: 3.3, type: "Power"},
+                ground: {pin: 65, type: "Ground"},
+                analog: {pin: 51, direction: "input"},
               }
             },
             }, function(success) {
@@ -275,10 +299,7 @@ class AppBehavior extends Behavior {
                 Pins.share("ws", {zeroconf: true, name: "pins-share"});
            }
         });
-    }
-    onQuit(application) {
-      application.shared = false; //added
-    }
+        }
 }
 
 
