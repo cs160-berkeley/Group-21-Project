@@ -57,7 +57,10 @@ import {
         var foodExpireLengthTemplate = Container.template($ => ({
         	left: 0, right: $.right, top: 0, bottom: 0, skin: $.skin,
     	}));
-
+    	
+    var pictureTaken = false;
+    
+    
 
 /************************************************************************/
 /************************** BUTTON TEMPLATES ****************************/
@@ -473,10 +476,12 @@ import {
 				new Picture({left: 10, width: 120, height: 150, url: $.url}),
 				new Column({top: 0, bottom: 0, left: 15, right: 15, contents: [
 					new Label({left: 5, string: $.itemName, style: itemTitleStyle}),
-					new Label({left: 5, string: "Communal Food", style: itemDetailStyle}),
+					$.itemDetailOwner,
+					/**new Label({left: 5, string: "Communal Food", style: itemDetailStyle}),**/
 					new Container({height: 15}),
 					/**new Label({left: 5, string: $.itemExpireTime, style: itemExpireStyle}),**/
-					new Label({left: 5, string: "Expires in 1 day", style: itemExpireStyle}),
+					/**new Label({left: 5, string: "Expires in 1 day", style: itemExpireStyle}),**/
+					$.itemExpireTime,
 					$.itemExpireMeter
 				]})
 			]}),
@@ -602,11 +607,13 @@ import {
         ]
     }));
 
+	let itemExpireTimeMilk = new StringTemplate({left: 5, string: "Expires in N/A days.", style: itemExpireStyle});
+	let itemDetailOwnerMilk = new StringTemplate({left: 5, string: "Communal Food", style: itemDetailStyle});
     let itemScreenContainer = new Column({
         left: 0, right: 0, top: 0, bottom: 0, skin: darkerGreySkin,
         contents: [
         	new itemStatusContainer({item: "Milk"}),
-            new itemDetailContainer({url: "milk.jpeg", itemName: "Milk", itemExpireMeter: foodOneLengthContainer2}),
+            new itemDetailContainer({url: "milk.jpeg", itemName: "Milk", itemDetailOwner: itemDetailOwnerMilk, itemExpireTime: itemExpireTimeMilk, itemExpireMeter: foodOneLengthContainer2}),
             new messageContainer({item: "Milk"}),
             new statusPageButtonContainer(),
             /**messageContainer,
@@ -616,19 +623,21 @@ import {
         ]
     });
 
+	let itemExpireTimeAvocado = new StringTemplate({left: 5, string: "Expires in N/A days.", style: itemExpireStyle});
+	let itemDetailOwnerAvocado = new StringTemplate({left: 5, string: "Hannah's Food", style: itemDetailStyle});
     let foodTwoLengthContainer2 = new foodExpireMeter();
 
     let itemScreenContainer2 = new Column({
     	left: 0, right: 0, top: 0, bottom: 0, skin: darkerGreySkin,
         contents: [
         	new itemStatusContainer({item: "Avocado"}),
-            new itemDetailContainer({url: "avocado.jpg", itemName: "Avocado", itemExpireMeter: foodTwoLengthContainer2}),
+            new itemDetailContainer({url: "avocado.jpg", itemName: "Avocado", itemDetailOwner: itemDetailOwnerAvocado, itemExpireTime: itemExpireTimeAvocado, itemExpireMeter: foodTwoLengthContainer2}),
             new messageContainer({item: "Avocado"}),
             new statusPageButtonContainer(),
         ]
     });
 
-    /************************************************************************/
+/************************************************************************/
 /************************* PROFILE PAGE ********************************/
 /************************************************************************/
     let headerContainer = Container.template($ => ({left: 0, right: 0, top: 0, height: 40, skin: headerSkin, contents: [new Label({left: 0, right: 0, string: $.text, style: itemStyle})]}));
@@ -1565,6 +1574,7 @@ import {
         	active: true,
         	behavior: Behavior({
         		onTouchEnded(container, id, x, y, ticks) {
+        			pictureTaken = true;
         			let personalPageAppleContainer = new personalPageAppleTemplate({
         				owner: newFoodOwner["apple"], skin: (newFoodOwner["apple"] == "Communal") ? lightGreenSkin : whiteSkin
         			});
@@ -2172,7 +2182,7 @@ import {
             if (remotePins) {
                 remotePins.repeat("/Milk/read", 10, function(result) {
                     milkExpireLabel.string = "Expires in " + ((1 - result) * 30).toFixed(1) + " days.";
-
+                    itemExpireTimeMilk.string = "Expires in " + ((1 - result) * 30).toFixed(1) + " days.";
                     personalPageMilkExpireLabel.string = "Expires in " + ((1 - result) * 30).toFixed(1) + " days.";
                     newStatusPageMilkExpireLabel.string = "Expires in " + ((1 - result) * 30).toFixed(1) + " days.";
                     milkLengthContainer.empty();
@@ -2198,7 +2208,7 @@ import {
                 })
                 remotePins.repeat("/Avocado/read", 10, function(result) {
                     avocadoExpireLabel.string = "Expires in " + ((1 - result) * 30).toFixed(1) + " days.";
-
+                    itemExpireTimeAvocado.string = "Expires in " + ((1 - result) * 30).toFixed(1) + " days.";
                     newStatusPageAvocadoExpireLabel.string = "Expires in " + ((1 - result) * 30).toFixed(1) + " days.";
                     avocadoLengthContainer.empty();
                     newStatusPageAvocadoLengthContainer.empty();
