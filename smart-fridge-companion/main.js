@@ -59,6 +59,7 @@ import {
     	}));
     	
     var pictureTaken = false;
+    var fromPersonalPage = false;
     
     
 
@@ -177,7 +178,20 @@ import {
             behavior: Behavior({
                 onTouchEnded(container, id, x, y, ticks) {
                     MainContainer.empty();
-                    MainContainer.add(FoodStatusPageContainer);
+                    if (pictureTaken == false) {
+                    	if (fromPersonalPage == false) {
+                    		MainContainer.add(FoodStatusPageContainer);
+                    	} else {
+                    		MainContainer.add(personalPageContainer);
+                    	}
+                    } else {
+                    	if (fromPersonalPage == false) {
+                    		MainContainer.add(newStatusPageContainer);
+                    	} else {
+                    		MainContainer.add(personalPageContainer);
+                    	}
+                    }
+                    /**MainContainer.add(FoodStatusPageContainer);**/
                     /**application.distribute("onUpdateFridgeStatus");**/
                 }
             })
@@ -348,10 +362,11 @@ import {
         var statusPageHomeButton = Picture.template($ => ({
             left: 140, url: "home.png",
             active: true,
-            behavior: Behavior({
+            /**behavior: Behavior({
                 onTouchEnded(container, id, x, y, ticks) {
                 }
-            })
+            })**/
+            behavior: $.behavior
         }));
 
         /**let statusPageCameraButton = new Picture({
@@ -392,6 +407,7 @@ import {
             active: true,
             behavior: Behavior({
                 onTouchEnded(container, id, x, y, ticks) {
+                	fromPersonalPage = true;
                 	MainContainer.empty();
                 	MainContainer.add(personalPageContainer);
                 }
@@ -405,14 +421,45 @@ import {
             	statusPageProfileButton
         	]
     	}); **/
-    	var statusPageButtonContainer = Container.template($ => ({
+    	var FoodStatusPageButtonContainer = Container.template($ => ({
         	left: 0, right: 0, bottom: 0, height: 60, skin: greySkin,
         	contents: [
-            	new statusPageHomeButton(),
+            	new statusPageHomeButton({
+            		behavior: Behavior({
+            			onTouchEnded(container, id, x, y, ticks) {
+            			}
+            		})
+            	}),
             	new statusPageCameraButton(),
             	new statusPageProfileButton()
         	]
     	}));
+    	
+    	var statusPageButtonContainer = Container.template($ => ({
+	    	left: 0, right: 0, bottom: 0, height: 60, skin: greySkin,
+	        	contents: [
+	            	new statusPageHomeButton({
+	            		behavior: Behavior({
+	            			onTouchEnded(container, id, x, y, ticks) {
+	            				fromPersonalPage = false;
+	            				MainContainer.empty();
+	            				if (pictureTaken == false) {
+	            					MainContainer.add(FoodStatusPageContainer);
+	            				} else {
+	            					MainContainer.add(newStatusPageContainer);
+	            				}
+	            			}
+	            		})
+	            	}),
+	            	new statusPageCameraButton(),
+	            	new statusPageProfileButton()
+	        ]
+    	}));
+    	
+    	
+
+
+    
 
 
     /****************************************************/
@@ -425,7 +472,7 @@ import {
             titleBorderLine,
             statusPageFoodOneContainer,
             statusPageFoodTwoContainer,
-            new statusPageButtonContainer()
+            new FoodStatusPageButtonContainer()
         ]
     });
 
@@ -726,6 +773,7 @@ import {
     	active: true,
     	behavior: Behavior({
     		onTouchEnded(container, id, x, y, ticks) {
+    			fromPersonalPage = false;
     			MainContainer.empty();
     			MainContainer.add(newStatusPageContainer);
     		}
@@ -2108,6 +2156,7 @@ import {
     	active: true,
     	behavior: Behavior({
     		onTouchEnded(container, id, x, y, ticks) {
+    			fromPersonalPage = true;
     			MainContainer.empty();
     			MainContainer.add(personalPageContainer);
     		}
