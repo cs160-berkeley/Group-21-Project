@@ -64,7 +64,7 @@ Handler.bind("/sendNotifyThrowMilk", {
    	  if (noItemsThrow) {
    	  	defaultThrowOkayContainer.empty();
    	  }
-   	  defaultThrowOkayContainer.add(profilePageFoodOneContainer);
+   	  defaultThrowOkayContainer.add(new profilePageFoodOneContainer());
    	  noItemsThrow = false;
     }
 });
@@ -81,7 +81,7 @@ Handler.bind("/sendNotifyThrowAvocado", {
    	  if (noItemsThrow) {
    	  	defaultThrowOkayContainer.empty();
    	  }
-   	  defaultThrowOkayContainer.add(profilePageFoodTwoContainer);
+   	  defaultThrowOkayContainer.add(new profilePageFoodTwoContainer());
    	  noItemsThrow = false;
     }
 });
@@ -98,7 +98,7 @@ Handler.bind("/sendNotifyThrowApple", {
    	  if (noItemsThrow) {
    	  	defaultThrowOkayContainer.empty();
    	  }
-   	  defaultThrowOkayContainer.add(profilePageFoodThreeContainer);
+   	  defaultThrowOkayContainer.add(new profilePageFoodThreeContainer());
    	  noItemsThrow = false;
     }
 });
@@ -115,7 +115,7 @@ Handler.bind("/sendNotifyThrowBanana", {
    	  if (noItemsThrow) {
    	  	defaultThrowOkayContainer.empty();
    	  }
-   	  defaultThrowOkayContainer.add(profilePageFoodFourContainer);
+   	  defaultThrowOkayContainer.add(new profilePageFoodFourContainer());
    	  noItemsThrow = false;
     }
 });
@@ -132,7 +132,7 @@ Handler.bind("/sendNotifyThrowOnion", {
    	  if (noItemsThrow) {
    	  	defaultThrowOkayContainer.empty();
    	  }
-   	  defaultThrowOkayContainer.add(profilePageFoodFiveContainer);
+   	  defaultThrowOkayContainer.add(new profilePageFoodFiveContainer());
    	  noItemsThrow = false;
     }
 });
@@ -149,7 +149,7 @@ Handler.bind("/sendNotifyUseMilk", {
     	if (noItemsUse) {
     		defaultConsumeOkayContainer.empty();
     	}
-    	defaultConsumeOkayContainer.add(profilePageFoodOneContainer);
+    	defaultConsumeOkayContainer.add(new profilePageFoodOneContainer());
     	noItemsUse = false;
     }
 });
@@ -166,7 +166,7 @@ Handler.bind("/sendNotifyUseAvocado", {
     	if (noItemsUse) {
     		defaultConsumeOkayContainer.empty();
     	}
-    	defaultConsumeOkayContainer.add(profilePageFoodTwoContainer);
+    	defaultConsumeOkayContainer.add(new profilePageFoodTwoContainer());
     	noItemsUse = false;
     }
 });
@@ -183,7 +183,7 @@ Handler.bind("/sendNotifyUseApple", {
     	if (noItemsUse) {
     		defaultConsumeOkayContainer.empty();
     	}
-    	defaultConsumeOkayContainer.add(profilePageFoodThreeContainer);
+    	defaultConsumeOkayContainer.add(new profilePageFoodThreeContainer());
     	noItemsUse = false;
     }
 });
@@ -200,7 +200,7 @@ Handler.bind("/sendNotifyUseBanana", {
     	if (noItemsUse) {
     		defaultConsumeOkayContainer.empty();
     	}
-    	defaultConsumeOkayContainer.add(profilePageFoodFourContainer);
+    	defaultConsumeOkayContainer.add(new profilePageFoodFourContainer());
     	noItemsUse = false;
     }
 });
@@ -217,7 +217,7 @@ Handler.bind("/sendNotifyUseOnion", {
     	if (noItemsUse) {
     		defaultConsumeOkayContainer.empty();
     	}
-    	defaultConsumeOkayContainer.add(profilePageFoodFiveContainer);
+    	defaultConsumeOkayContainer.add(new profilePageFoodFiveContainer());
     	noItemsUse = false;
     }
 });
@@ -346,51 +346,51 @@ let messageContainerUse = Column.template($ => ({
   });
 
 
-    let profilePageFoodOneContainer = new Column({ //Container
+    let profilePageFoodOneContainer = Column.template($=>({ //Container
       left: 0, top: 0, width: 65, height: 65, skin: whiteSkin,
       contents: [
         new Picture({left: 0, width: 50, height: 50, url: "milk.jpeg"}),
         new Label({left: 0, right: 10, style: foodNameStyle, string: "Milk"})
         //new Column({top: 25, bottom: 0, left: 65, right: 0, contents: [new Label({left: 0, right: 0, style: foodNameStyle, string: "Milk"})]})
       ],
-    });
+    }));
     
-    let profilePageFoodTwoContainer = new Column({
+    let profilePageFoodTwoContainer = Column.template($=>({
       left: 0, top: 0, width: 65, height: 65, skin: whiteSkin,
       contents: [
         new Picture({left: 0, width: 50, height: 50, url: "avocado.jpg"}),
         new Label({left: 0, style: foodNameStyle, string: "Avocado"})
         //new Column({top: 25, bottom: 0, left: 65, right: 0, contents: [new Label({left: 0, right: 0, style: foodNameStyle, string: "Avocado"}), new ownerLabel()]})
       ],
-    });
+    }));
     
-    let profilePageFoodThreeContainer = new Column({
+    let profilePageFoodThreeContainer = Column.template($=>({
       left: 0, top: 0, width: 65, height: 65, skin: whiteSkin,
       contents: [
         new Picture({left: 0, width: 50, height: 50, url: "apple.jpg"}),
         new Label({left: 0, style: foodNameStyle, string: "Apple"})
         //new Column({top: 25, bottom: 0, left: 65, right: 0, contents: [new Label({left: 0, right: 0, style: foodNameStyle, string: "Avocado"}), new ownerLabel()]})
       ],
-    });
+    }));
     
     
-    let profilePageFoodFourContainer = new Column({
+    let profilePageFoodFourContainer = Column.template($=>({
       left: 0, top: 0, width: 65, height: 65, skin: whiteSkin,
       contents: [
         new Picture({left: 0, width: 50, height: 50, url: "banana.jpg"}),
         new Label({left: 0, style: foodNameStyle, string: "Banana"})
         //new Column({top: 25, bottom: 0, left: 65, right: 0, contents: [new Label({left: 0, right: 0, style: foodNameStyle, string: "Avocado"}), new ownerLabel()]})
       ],
-    });
+    }));
     
-    let profilePageFoodFiveContainer = new Column({
+    let profilePageFoodFiveContainer = Column.template($=>({
       left: 0, top: 0, width: 65, height: 65, skin: whiteSkin,
       contents: [
         new Picture({left: 0, width: 50, height: 50, url: "onion.jpg"}),
         new Label({left: 0, style: foodNameStyle, string: "Onion"})
         //new Column({top: 25, bottom: 0, left: 65, right: 0, contents: [new Label({left: 0, right: 0, style: foodNameStyle, string: "Avocado"}), new ownerLabel()]})
       ],
-    });
+    }));
     /*
     let profilePageFoodTwoContainer = new Line({
       left: 0, right: 0, top: 0, height: 70, skin: whiteSkin,

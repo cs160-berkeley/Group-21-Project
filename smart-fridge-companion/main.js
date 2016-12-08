@@ -649,7 +649,8 @@ import Pins from "pins";
             new useContainer({text: $.item})
         ]
     }));
-
+	
+	var milkNotSent = true;
 	let itemExpireTimeMilk = new StringTemplate({left: 5, string: "Expires in N/A days.", style: itemExpireStyle});
 	let itemDetailOwnerMilk = new StringTemplate({left: 5, string: "Communal Food", style: itemDetailStyle});
     let itemScreenContainer = new Column({
@@ -665,7 +666,9 @@ import Pins from "pins";
             milkPictureTwo**/
         ]
     });
-
+	
+	
+	var avocadoNotSent = true;
 	let itemExpireTimeAvocado = new StringTemplate({left: 5, string: "Expires in N/A days.", style: itemExpireStyle});
 	let itemDetailOwnerAvocado = new StringTemplate({left: 5, string: "Hannah's Food", style: itemDetailStyle});
     let foodTwoLengthContainer2 = new foodExpireMeter();
@@ -686,6 +689,7 @@ import Pins from "pins";
         
     
     /******************** Apple Item Detail Page Implementation ********************/
+    var appleNotSent = true;
     let itemDetailOwnerApple = new StringTemplate({left: 5, string: "Communal Food", style: itemDetailStyle});
     let itemExpireTimeApple = new StringTemplate({left: 5, string: "Expires in N/A days.", style: itemExpireStyle});
     let itemExpireMeterApple = new foodExpireMeter();
@@ -706,6 +710,7 @@ import Pins from "pins";
     
     
     /******************** Banana Item Detail Page Implementation ********************/
+    var bananaNotSent = true;
     let itemDetailOwnerBanana = new StringTemplate({left: 5, string: "Communal Food", style: itemDetailStyle});
     let itemExpireTimeBanana = new StringTemplate({left: 5, string: "Expires in N/A days.", style: itemExpireStyle});
     let itemExpireMeterBanana = new foodExpireMeter();
@@ -726,6 +731,7 @@ import Pins from "pins";
 
     
     /******************** Onion Item Detail Page Implementation ********************/
+    var onionNotSent = true;
     let itemDetailOwnerOnion = new StringTemplate({left: 5, string: "Communal Food", style: itemDetailStyle});
     let itemExpireTimeOnion = new StringTemplate({left: 5, string: "Expires in N/A days.", style: itemExpireStyle});
     let itemExpireMeterOnion = new foodExpireMeter();
