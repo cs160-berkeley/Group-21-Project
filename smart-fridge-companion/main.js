@@ -1,10 +1,10 @@
 import CONTROL from 'mobile/control';
 import MODEL from'mobile/model';
 import Pins from "pins";
-import {
+/*import {
     Button,
     ButtonBehavior
-} from "buttons";
+} from "buttons";*/
 
 /************************************************************************/
 /************************** SKINS AND STYLES ****************************/
@@ -304,7 +304,7 @@ import {
 
 
     /********************************************************/
-    /************ STATUS PAGE AVOCADO FODD ENTRY ************/
+    /************ STATUS PAGE AVOCADO FOOD ENTRY ************/
 
     let avocadoPicture = new Picture({left: 3, right: 257, height: 64, url: "avocado.jpg"});
     let avocadoName = new Label({left: 65, right: 180, style: foodNameStyle, string: "Avocado"});
@@ -542,7 +542,7 @@ import {
     var throwContainer = Container.template($ => ({
         left: 0, right: 0, skin: whiteSkin,
         contents: [
-            new throwButtonTemplate({text: $.text})
+            new throwButtonTemplate({text: "Can I throw out " + $.text + "?"})
         ],
         active: true,
         behavior: Behavior({
@@ -558,7 +558,8 @@ import {
                 //throwContainer.remove(milkThrowDarkenButton);
                 //if (milkClick < 1) {
                 container.add(new throwMessageSentTemplate());
-                if (deviceURL != "") new MessageWithObject(deviceURL + "askThrow", "Test2").invoke();//.invoke(Message.JSON).then(json => { $.text });
+                if (deviceURL != "") application.invoke(new Message(deviceURL + "askThrow"));
+                //application.invoke(new Message(deviceURL + "askThrow" + "?" + serializeQuery({text: String($.text)})), Message.JSON);
                 //}
                 milkClick++;
             }
@@ -646,7 +647,7 @@ import {
         left: 0, right: 0, top: 0, bottom: 0, height: 100, skin: whiteSkin,
         contents: [
             new Label({left: 15, top: 15, height: 40, string: "Ask your Roommates:", style: askStyle}),
-            new throwContainer({text: "Can I throw out '" + $.item + "'?"}),
+            new throwContainer({text: $.item}),
             new Container({height: 15}),
             new useContainer({text: "Can I use '" + $.item + "'?"})
         ]
