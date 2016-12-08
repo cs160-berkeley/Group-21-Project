@@ -9,10 +9,10 @@ let messageRedSkin = new Skin ({fill: '#F87E7B' });
 let messageSentGreenSkin = new Skin ({fill: '#CAE7D1' });
 let messageSentRedSkin = new Skin ({fill: '#F0C2C1' });
 let headerSkin = new Skin ({fill: '#45ADA8' });
-let headerStyle = new Style({ font: "20px", color: "white" });
-let blackStyle = new Style({font: "18px", color: "black"});
+let headerStyle = new Style({ font: "17px", color: "white" });
+let blackStyle = new Style({font: "15px", color: "black"});
 let messageStyle = new Style({ font: "20px", color: "white" });
-let foodNameStyle = new Style({font: "20px", color: "black" });
+let foodNameStyle = new Style({font: "15px", color: "black" });
 let ownerStyle = new Style({ font: "italic 15px", color: "black" });
 
 var noItemsThrow = true;
@@ -55,7 +55,7 @@ Handler.bind("/askUse", {
 Handler.bind("/sendNotifyThrowMilk", {
     onInvoke: function(handler, message){
         //if (companionURL != "") new Message(companionURL + "notifyThrow").invoke();
-        handler.wait(1500);
+        handler.wait(1000);
     },
     onComplete: function(handler, message) {
       notifContainer.empty();
@@ -72,7 +72,7 @@ Handler.bind("/sendNotifyThrowMilk", {
 Handler.bind("/sendNotifyThrowAvocado", {
     onInvoke: function(handler, message){
         //if (companionURL != "") new Message(companionURL + "notifyThrow").invoke();
-        handler.wait(1500);
+        handler.wait(1000);
     },
     onComplete: function(handler, message) {
       notifContainer.empty();
@@ -86,19 +86,70 @@ Handler.bind("/sendNotifyThrowAvocado", {
     }
 });
 
+Handler.bind("/sendNotifyThrowApple", {
+    onInvoke: function(handler, message){
+        //if (companionURL != "") new Message(companionURL + "notifyThrow").invoke();
+        handler.wait(1000);
+    },
+    onComplete: function(handler, message) {
+      notifContainer.empty();
+      notifContainer.add(new headerContainer({text: "Notifications:"}));
+      notifContainer.add(new Container({left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin, contents:[new Label({left: 0, right: 0, string: "No Notifications", style: blackStyle})]}));
+   	  if (noItemsThrow) {
+   	  	defaultThrowOkayContainer.empty();
+   	  }
+   	  defaultThrowOkayContainer.add(profilePageFoodThreeContainer);
+   	  noItemsThrow = false;
+    }
+});
+
+Handler.bind("/sendNotifyThrowBanana", {
+    onInvoke: function(handler, message){
+        //if (companionURL != "") new Message(companionURL + "notifyThrow").invoke();
+        handler.wait(1000);
+    },
+    onComplete: function(handler, message) {
+      notifContainer.empty();
+      notifContainer.add(new headerContainer({text: "Notifications:"}));
+      notifContainer.add(new Container({left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin, contents:[new Label({left: 0, right: 0, string: "No Notifications", style: blackStyle})]}));
+   	  if (noItemsThrow) {
+   	  	defaultThrowOkayContainer.empty();
+   	  }
+   	  defaultThrowOkayContainer.add(profilePageFoodFourContainer);
+   	  noItemsThrow = false;
+    }
+});
+
+Handler.bind("/sendNotifyThrowOnion", {
+    onInvoke: function(handler, message){
+        //if (companionURL != "") new Message(companionURL + "notifyThrow").invoke();
+        handler.wait(1000);
+    },
+    onComplete: function(handler, message) {
+      notifContainer.empty();
+      notifContainer.add(new headerContainer({text: "Notifications:"}));
+      notifContainer.add(new Container({left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin, contents:[new Label({left: 0, right: 0, string: "No Notifications", style: blackStyle})]}));
+   	  if (noItemsThrow) {
+   	  	defaultThrowOkayContainer.empty();
+   	  }
+   	  defaultThrowOkayContainer.add(profilePageFoodFiveContainer);
+   	  noItemsThrow = false;
+    }
+});
+
 Handler.bind("/sendNotifyUseMilk", {
     onInvoke: function(handler, message){
         //if (companionURL != "") new Message(companionURL + "notifyUse").invoke();
-        handler.wait(1500);
+        handler.wait(1000);
     },
     onComplete: function(handler, message) {
       notifContainer.empty();
       notifContainer.add(new headerContainer({text: "Notifications:"}));
       notifContainer.add(new Container({left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin, contents:[new Label({left: 0, right: 0, string: "No Notifications", style: blackStyle})]}));
     	if (noItemsUse) {
-    		consumeOkayContainer.remove(defaultConsumeOkayContainer);
+    		defaultConsumeOkayContainer.empty();
     	}
-    	consumeOkayContainer.add(profilePageFoodOneContainer);
+    	defaultConsumeOkayContainer.add(profilePageFoodOneContainer);
     	noItemsUse = false;
     }
 });
@@ -106,23 +157,74 @@ Handler.bind("/sendNotifyUseMilk", {
 Handler.bind("/sendNotifyUseAvocado", {
     onInvoke: function(handler, message){
         //if (companionURL != "") new Message(companionURL + "notifyUse").invoke();
-        handler.wait(1500);
+        handler.wait(1000);
     },
     onComplete: function(handler, message) {
       notifContainer.empty();
       notifContainer.add(new headerContainer({text: "Notifications:"}));
       notifContainer.add(new Container({left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin, contents:[new Label({left: 0, right: 0, string: "No Notifications", style: blackStyle})]}));
     	if (noItemsUse) {
-    		consumeOkayContainer.remove(defaultConsumeOkayContainer);
+    		defaultConsumeOkayContainer.empty();
     	}
-    	consumeOkayContainer.add(profilePageFoodTwoContainer);
+    	defaultConsumeOkayContainer.add(profilePageFoodTwoContainer);
+    	noItemsUse = false;
+    }
+});
+
+Handler.bind("/sendNotifyUseApple", {
+    onInvoke: function(handler, message){
+        //if (companionURL != "") new Message(companionURL + "notifyUse").invoke();
+        handler.wait(1000);
+    },
+    onComplete: function(handler, message) {
+      notifContainer.empty();
+      notifContainer.add(new headerContainer({text: "Notifications:"}));
+      notifContainer.add(new Container({left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin, contents:[new Label({left: 0, right: 0, string: "No Notifications", style: blackStyle})]}));
+    	if (noItemsUse) {
+    		defaultConsumeOkayContainer.empty();
+    	}
+    	defaultConsumeOkayContainer.add(profilePageFoodThreeContainer);
+    	noItemsUse = false;
+    }
+});
+
+Handler.bind("/sendNotifyUseBanana", {
+    onInvoke: function(handler, message){
+        //if (companionURL != "") new Message(companionURL + "notifyUse").invoke();
+        handler.wait(1000);
+    },
+    onComplete: function(handler, message) {
+      notifContainer.empty();
+      notifContainer.add(new headerContainer({text: "Notifications:"}));
+      notifContainer.add(new Container({left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin, contents:[new Label({left: 0, right: 0, string: "No Notifications", style: blackStyle})]}));
+    	if (noItemsUse) {
+    		defaultConsumeOkayContainer.empty();
+    	}
+    	defaultConsumeOkayContainer.add(profilePageFoodFourContainer);
+    	noItemsUse = false;
+    }
+});
+
+Handler.bind("/sendNotifyUseOnion", {
+    onInvoke: function(handler, message){
+        //if (companionURL != "") new Message(companionURL + "notifyUse").invoke();
+        handler.wait(1000);
+    },
+    onComplete: function(handler, message) {
+      notifContainer.empty();
+      notifContainer.add(new headerContainer({text: "Notifications:"}));
+      notifContainer.add(new Container({left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin, contents:[new Label({left: 0, right: 0, string: "No Notifications", style: blackStyle})]}));
+    	if (noItemsUse) {
+    		defaultConsumeOkayContainer.empty();
+    	}
+    	defaultConsumeOkayContainer.add(profilePageFoodFiveContainer);
     	noItemsUse = false;
     }
 });
 
 Handler.bind("/clearNotify", {
     onInvoke: function(handler, message){
-        handler.wait(1500);
+        handler.wait(1000);
     },
     onComplete: function(handler, message) {
       notifContainer.empty();
@@ -145,36 +247,36 @@ Handler.bind("/clearNotify", {
 
 /* Buttons */
     let yesButtonTemplate = Container.template($ => ({
-        left: 10, height: 30, width: 80, skin: messageGreenSkin,
+        left: 10, height: 22, width: 60, skin: messageGreenSkin,
         contents: [
-            Label($, {left:0, right:0, height:40, string: "Yes", style: messageStyle})
+            Label($, {left:0, right:0, height:22, string: "Yes", style: messageStyle})
         ]
     }));
 
     let yesDarkenButtonTemplate = Container.template($ => ({
-        left: 10, height: 30, width: 80, skin: messageSentGreenSkin,
+        left: 10, height: 22, width: 60, skin: messageSentGreenSkin,
         contents: [
-            Label($, {left:0, right:0, height:40, string: "Yes", style: messageStyle})
+            Label($, {left:0, right:0, height:22, string: "Yes", style: messageStyle})
         ]
     }));
 
 
     let noButtonTemplate = Container.template($ => ({
-        right: 10, height: 30, width: 80, skin: messageRedSkin,
+        right: 10, height: 22, width: 60, skin: messageRedSkin,
         contents: [
-            Label($, {left:0, right:0, height:40, string: "No", style: messageStyle})
+            Label($, {left:0, right:0, height:22, string: "No", style: messageStyle})
         ],
     }));
 
     let noDarkenButtonTemplate = Container.template($ => ({
-        right: 10, height: 30, width: 80, skin: messageSentRedSkin,
+        right: 10, height: 22, width: 60, skin: messageSentRedSkin,
         contents: [
-            Label($, {left:0, right:0, height:40, string: "No", style: messageStyle})
+            Label($, {left:0, right:0, height:22, string: "No", style: messageStyle})
         ]
     }));
 
 var yesContainer = Container.template($ => ({
-        top: 10, left: 0, right: 0, skin: mintSkin,
+        top: 0, left: 0, right: 0, skin: mintSkin,
         contents: [
             new yesButtonTemplate()
         ],
@@ -192,7 +294,7 @@ var yesContainer = Container.template($ => ({
     }));
 
     var noContainer = Container.template($ => ({
-        top:10, left: 0, right: 0, skin: mintSkin,
+        top:0, left: 0, right: 0, skin: mintSkin,
         contents: [
             new noButtonTemplate()
         ],
@@ -208,20 +310,20 @@ var yesContainer = Container.template($ => ({
     }));
 
 /* Containers */
-let headerContainer = Container.template($ => ({left: 0, right: 0, top: 0, height: 30, skin: headerSkin, contents: [new Label({left: 0, right: 0, string: $.text, style: headerStyle})]}));
+let headerContainer = Container.template($ => ({left: 0, right: 0, top: 0, height: 23, skin: headerSkin, contents: [new Label({left: 0, right: 0, string: $.text, style: headerStyle})]}));
 let defaultContainer = new Container({left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin, contents: [new Label({left: 0, right: 0, top: 30, string: "No Notifications", style: blackStyle})]});
 let messageContainer = Column.template($ => ({
               left: 0, right: 0, top:0, bottom: 0, skin: mintSkin,
               contents:[
-                new Label({left: 0, right: 0, top: 10, string: 'Roommate Asks: "Can I throw out "' + $.item + '"?', style: blackStyle}),
-                new Line({left: 0, right: 0, top: 5, contents: [new noContainer(), new yesContainer({verb: "Throw", item: $.item})]}),
+                new Label({left: 0, right: 0, top: 5, string: 'Roommate Asks: "Can I throw out "' + $.item + '"?', style: blackStyle}),
+                new Line({left: 0, right: 0, top: 0, bottom: 3, contents: [new noContainer(), new yesContainer({verb: "Throw", item: $.item})]}),
               ]
             }));
 let messageContainerUse = Column.template($ => ({
               left: 0, right: 0, top:0, bottom: 0, skin: mintSkin,
               contents:[
-                new Label({left: 0, right: 0, top: 10, string: 'Roommate Asks: "Can I use your ' + $.item + '"?', style: blackStyle}),
-                new Line({left: 0, right: 0, top: 5, contents: [new noContainer(), new yesContainer({verb: "Use", item: $.item})]}),
+                new Label({left: 0, right: 0, top: 5, string: 'Roommate Asks: "Can I use your ' + $.item + '"?', style: blackStyle}),
+                new Line({left: 0, right: 0, top: 0, bottom: 3, contents: [new noContainer(), new yesContainer({verb: "Use", item: $.item})]}),
               ]
             }));
 
@@ -234,7 +336,7 @@ let messageContainerUse = Column.template($ => ({
     /* Container for the First Entry */
     let ownerLabel = Label.template($ => ({ left: 0, right: 0, top: 0/*top: 55*/, bottom: 10, style: ownerStyle, string: "Hannah" }));
 
-    var defaultConsumeOkayContainer = new Container({left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin, contents:[new Label({left: 0, right: 0, top: 10, string: "No Items", style: blackStyle})]});
+    var defaultConsumeOkayContainer = new Line({left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin, contents:[new Label({left: 0, right: 0, top: 10, string: "No Items", style: blackStyle})]});
     var consumeOkayContainer = new Column({
     left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin,
     contents: [
@@ -244,19 +346,49 @@ let messageContainerUse = Column.template($ => ({
   });
 
 
-    let profilePageFoodOneContainer = new Container({
-      left: 0, top: 0, width: 130, height: 70, skin: whiteSkin,
+    let profilePageFoodOneContainer = new Column({ //Container
+      left: 0, top: 0, width: 65, height: 65, skin: whiteSkin,
       contents: [
-        new Picture({left: 0, height: 64, url: "milk.jpeg"}),
-        new Column({top: 25, bottom: 0, left: 65, right: 0, contents: [new Label({left: 0, right: 0, style: foodNameStyle, string: "Milk"}), new ownerLabel()]})
+        new Picture({left: 0, width: 50, height: 50, url: "milk.jpeg"}),
+        new Label({left: 0, right: 10, style: foodNameStyle, string: "Milk"})
+        //new Column({top: 25, bottom: 0, left: 65, right: 0, contents: [new Label({left: 0, right: 0, style: foodNameStyle, string: "Milk"})]})
       ],
     });
     
-    let profilePageFoodTwoContainer = new Container({
-      left: 0, top: 0, width: 130, height: 70, skin: whiteSkin,
+    let profilePageFoodTwoContainer = new Column({
+      left: 0, top: 0, width: 65, height: 65, skin: whiteSkin,
       contents: [
-        new Picture({left: 0, height: 64, url: "avocado.jpg"}),
-        new Column({top: 25, bottom: 0, left: 65, right: 0, contents: [new Label({left: 0, right: 0, style: foodNameStyle, string: "Avocado"}), new ownerLabel()]})
+        new Picture({left: 0, width: 50, height: 50, url: "avocado.jpg"}),
+        new Label({left: 0, style: foodNameStyle, string: "Avocado"})
+        //new Column({top: 25, bottom: 0, left: 65, right: 0, contents: [new Label({left: 0, right: 0, style: foodNameStyle, string: "Avocado"}), new ownerLabel()]})
+      ],
+    });
+    
+    let profilePageFoodThreeContainer = new Column({
+      left: 0, top: 0, width: 65, height: 65, skin: whiteSkin,
+      contents: [
+        new Picture({left: 0, width: 50, height: 50, url: "apple.jpg"}),
+        new Label({left: 0, style: foodNameStyle, string: "Apple"})
+        //new Column({top: 25, bottom: 0, left: 65, right: 0, contents: [new Label({left: 0, right: 0, style: foodNameStyle, string: "Avocado"}), new ownerLabel()]})
+      ],
+    });
+    
+    
+    let profilePageFoodFourContainer = new Column({
+      left: 0, top: 0, width: 65, height: 65, skin: whiteSkin,
+      contents: [
+        new Picture({left: 0, width: 50, height: 50, url: "banana.jpg"}),
+        new Label({left: 0, style: foodNameStyle, string: "Banana"})
+        //new Column({top: 25, bottom: 0, left: 65, right: 0, contents: [new Label({left: 0, right: 0, style: foodNameStyle, string: "Avocado"}), new ownerLabel()]})
+      ],
+    });
+    
+    let profilePageFoodFiveContainer = new Column({
+      left: 0, top: 0, width: 65, height: 65, skin: whiteSkin,
+      contents: [
+        new Picture({left: 0, width: 50, height: 50, url: "onion.jpg"}),
+        new Label({left: 0, style: foodNameStyle, string: "Onion"})
+        //new Column({top: 25, bottom: 0, left: 65, right: 0, contents: [new Label({left: 0, right: 0, style: foodNameStyle, string: "Avocado"}), new ownerLabel()]})
       ],
     });
     /*
