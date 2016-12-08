@@ -547,21 +547,17 @@ import Pins from "pins";
         active: true,
         behavior: Behavior({
         	onTouchBegan(container, id, x, y, ticks) {
-        		//throwContainer.remove(milkThrowButton);
-        		//throwContainer.empty();
         		//if (milkClick < 1) {
-        		container.add(new throwDarkenButtonTemplate({text: $.text}));
+        		container.add(new throwDarkenButtonTemplate({text: "Can I throw out " + $.text + "?"}));
         		//}
         	},
             onTouchEnded(container, id, x, y, ticks) {
-            	//throwContainer.empty();
-                //throwContainer.remove(milkThrowDarkenButton);
                 //if (milkClick < 1) {
                 container.add(new throwMessageSentTemplate());
-                if (deviceURL != "") application.invoke(new Message(deviceURL + "askThrow"));
-                //application.invoke(new Message(deviceURL + "askThrow" + "?" + serializeQuery({text: String($.text)})), Message.JSON);
+                /*if (deviceURL != "") new MessageWithObject(deviceURL + "askThrow", "Test2").invoke(); */
+                application.invoke(new Message(deviceURL + "askThrow" + "?" + serializeQuery({text: String($.text)})), Message.JSON);
                 //}
-                milkClick++;
+                //milkClick++;
             }
         })
     }));
@@ -570,27 +566,28 @@ import Pins from "pins";
     var useContainer = Container.template($ => ({
         left: 0, right: 0, skin: whiteSkin,
         contents: [
-            new useButtonTemplate({text: $.text})
+            new useButtonTemplate({text: "Can I use your " + $.text + "?"})
         ],
         active: true,
         behavior: Behavior({
         	onTouchBegan(container, id, x, y, ticks) {
         		//useContainer.remove(milkUseButton);
         		//if (milkClick2 < 1) {
-	        		container.add(new useDarkenButtonTemplate({text: $.text}));
+	        		container.add(new useDarkenButtonTemplate({text: "Can I use your " + $.text + "?"}));
 	        	//}
         	},
             onTouchEnded(container, id, x, y, ticks) {
                 //useContainer.remove(milkUseDarkenButton);
                 //if (milkClick2 < 1) {
 	                container.add(new useMessageSentTemplate());
-                    if (deviceURL != "") new MessageWithObject(deviceURL + "askUse", "Test2").invoke();
+                    //if (deviceURL != "") new MessageWithObject(deviceURL + "askUse", "Test2").invoke();
+                    application.invoke(new Message(deviceURL + "askUse" + "?" + serializeQuery({text: String($.text)})), Message.JSON);
 	            //}
-	            milkClick2++;
+	            //milkClick2++;
             }
         })
     }));
-
+/*
 	var avoClick = 0;
     var throwContainer2 = Container.template($ => ({
         left: 0, right: 0, skin: whiteSkin,
@@ -639,7 +636,7 @@ import Pins from "pins";
 	            avoClick2++;
             }
         })
-    }));
+    }));*/
 
 
     /* "Ask your Roommates" Container */
@@ -649,7 +646,7 @@ import Pins from "pins";
             new Label({left: 15, top: 15, height: 40, string: "Ask your Roommates:", style: askStyle}),
             new throwContainer({text: $.item}),
             new Container({height: 15}),
-            new useContainer({text: "Can I use '" + $.item + "'?"})
+            new useContainer({text: $.item})
         ]
     }));
 
