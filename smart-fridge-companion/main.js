@@ -191,8 +191,6 @@ import {
                     		MainContainer.add(personalPageContainer);
                     	}
                     }
-                    /**MainContainer.add(FoodStatusPageContainer);**/
-                    /**application.distribute("onUpdateFridgeStatus");**/
                 }
             })
         }));
@@ -673,15 +671,79 @@ import {
 	let itemExpireTimeAvocado = new StringTemplate({left: 5, string: "Expires in N/A days.", style: itemExpireStyle});
 	let itemDetailOwnerAvocado = new StringTemplate({left: 5, string: "Hannah's Food", style: itemDetailStyle});
     let foodTwoLengthContainer2 = new foodExpireMeter();
-
     let itemScreenContainer2 = new Column({
     	left: 0, right: 0, top: 0, bottom: 0, skin: darkerGreySkin,
         contents: [
         	new itemStatusContainer({item: "Avocado"}),
-            new itemDetailContainer({url: "avocado.jpg", itemName: "Avocado", itemDetailOwner: itemDetailOwnerAvocado, itemExpireTime: itemExpireTimeAvocado, itemExpireMeter: foodTwoLengthContainer2}),
+            new itemDetailContainer({
+            	url: "avocado.jpg", itemName: "Avocado", 
+            	itemDetailOwner: itemDetailOwnerAvocado, 
+            	itemExpireTime: itemExpireTimeAvocado, 
+            	itemExpireMeter: foodTwoLengthContainer2
+            }),
             new messageContainer({item: "Avocado"}),
             new statusPageButtonContainer(),
         ]
+    });
+        
+    
+    /******************** Apple Item Detail Page Implementation ********************/
+    let itemDetailOwnerApple = new StringTemplate({left: 5, string: "Communal Food", style: itemDetailStyle});
+    let itemExpireTimeApple = new StringTemplate({left: 5, string: "Expires in N/A days.", style: itemExpireStyle});
+    let itemExpireMeterApple = new foodExpireMeter();
+    let itemPageAppleContainer = new Column({
+    	left: 0, right: 0, top: 0, bottom: 0, skin: darkerGreySkin,
+    	contents: [
+    		new itemStatusContainer({item: "Apple"}),
+    		new itemDetailContainer({
+    			url: "apple.jpg", itemName: "Apple", 
+    			itemDetailOwner: itemDetailOwnerApple, 
+    			itemExpireTime: itemExpireTimeApple, 
+    			itemExpireMeter: itemExpireMeterApple
+    		}),
+    		new messageContainer({item: "Apple"}),
+    		new statusPageButtonContainer(),
+    	]
+    });
+    
+    
+    /******************** Banana Item Detail Page Implementation ********************/
+    let itemDetailOwnerBanana = new StringTemplate({left: 5, string: "Communal Food", style: itemDetailStyle});
+    let itemExpireTimeBanana = new StringTemplate({left: 5, string: "Expires in N/A days.", style: itemExpireStyle});
+    let itemExpireMeterBanana = new foodExpireMeter();
+    let itemPageBananaContainer = new Column({
+    	left: 0, right: 0, top: 0, bottom: 0, skin: darkerGreySkin,
+    	contents: [
+    		new itemStatusContainer({item: "Banana"}),
+    		new itemDetailContainer({
+    			url: "banana.jpg", itemName: "Banana", 
+    			itemDetailOwner: itemDetailOwnerBanana, 
+    			itemExpireTime: itemExpireTimeBanana, 
+    			itemExpireMeter: itemExpireMeterBanana
+    		}),
+    		new messageContainer({item: "Banana"}),
+    		new statusPageButtonContainer(),
+    	]
+    });    
+
+    
+    /******************** Onion Item Detail Page Implementation ********************/
+    let itemDetailOwnerOnion = new StringTemplate({left: 5, string: "Communal Food", style: itemDetailStyle});
+    let itemExpireTimeOnion = new StringTemplate({left: 5, string: "Expires in N/A days.", style: itemExpireStyle});
+    let itemExpireMeterOnion = new foodExpireMeter();
+    let itemPageOnionContainer = new Column({
+    	left: 0, right: 0, top: 0, bottom: 0, skin: darkerGreySkin,
+    	contents: [
+    		new itemStatusContainer({item: "Onion"}),
+    		new itemDetailContainer({
+    			url: "onion.jpg", itemName: "Onion", 
+    			itemDetailOwner: itemDetailOwnerOnion, 
+    			itemExpireTime: itemExpireTimeOnion, 
+    			itemExpireMeter: itemExpireMeterOnion
+    		}),
+    		new messageContainer({item: "Onion"}),
+    		new statusPageButtonContainer(),
+    	]
     });
 
 /************************************************************************/
@@ -866,12 +928,7 @@ import {
             new StringTemplate ({left: 65, right: 180, top: 48, style: ownerStyle, string: $.owner}),
         ],
         active: true,
-        behavior: Behavior({
-            onTouchEnded(container, id, x, y, ticks) {
-                MainContainer.empty();
-                //MainContainer.add();
-            }
-        })
+        behavior: $.behavior
     }));
 
     var personalPageFoodThreeTemplate = Container.template($ => ({
@@ -901,12 +958,7 @@ import {
             new StringTemplate ({left: 65, right: 180, top: 48, style: ownerStyle, string: $.owner}),
         ],
         active: true,
-        behavior: Behavior({
-            onTouchEnded(container, id, x, y, ticks) {
-                MainContainer.empty();
-                //MainContainer.add();
-            }
-        })
+        behavior: $.behavior
     }));
 
     var personalPageFoodFourTemplate = Container.template($ => ({
@@ -938,12 +990,7 @@ import {
             new StringTemplate ({left: 65, right: 180, top: 48, style: ownerStyle, string: $.owner}),
         ],
         active: true,
-        behavior: Behavior({
-            onTouchEnded(container, id, x, y, ticks) {
-                MainContainer.empty();
-                //MainContainer.add();
-            }
-        })
+        behavior: $.behavior
     }));
     var personalPageFoodFiveTemplate = Container.template($ => ({
         left: 0, right: 0, top: 274, height: 71, skin: $.skin,
@@ -1622,15 +1669,48 @@ import {
         	active: true,
         	behavior: Behavior({
         		onTouchEnded(container, id, x, y, ticks) {
+        			if (newFoodOwner["apple"] != "Communal") {
+        				itemDetailOwnerApple.string = newFoodOwner["apple"] + "'s Food"
+        			}
+        			if (newFoodOwner["banana"] != "Communal") {
+        				itemDetailOwnerBanana.string = newFoodOwner["banana"] + "'s Food"
+        			}
+        			if (newFoodOwner["onion"] != "Communal") {
+        				itemDetailOwnerOnion.string = newFoodOwner["onion"] + "'s Food"
+        			}
         			pictureTaken = true;
         			let personalPageAppleContainer = new personalPageAppleTemplate({
-        				owner: newFoodOwner["apple"], skin: (newFoodOwner["apple"] == "Communal") ? lightGreenSkin : whiteSkin
+        				owner: newFoodOwner["apple"], skin: (newFoodOwner["apple"] == "Communal") ? lightGreenSkin : whiteSkin,
+        				behavior: Behavior({
+        					onTouchEnded(container, id, x, y, ticks) {
+        						if (newFoodOwner["apple"] == "Communal") {
+        							MainContainer.empty();
+        							MainContainer.add(itemPageAppleContainer);
+        						}
+        					}
+        				})
         			});
         			let personalPageBananaContainer = new personalPageBananaTemplate({
-        				owner: newFoodOwner["banana"], skin: (newFoodOwner["banana"] == "Communal") ? lightGreenSkin : whiteSkin
+        				owner: newFoodOwner["banana"], skin: (newFoodOwner["banana"] == "Communal") ? lightGreenSkin : whiteSkin,
+        				behavior: Behavior({
+        					onTouchEnded(container, id, x, y, ticks) {
+        						if (newFoodOwner["banana"] == "Communal") {
+        							MainContainer.empty();
+        							MainContainer.add(itemPageBananaContainer);
+        						}
+        					}
+        				})
         			});
         			let personalPageOnionContainer = new personalPageOnionTemplate({
-        				owner: newFoodOwner["onion"], skin: (newFoodOwner["onion"] == "Communal") ? lightGreenSkin: whiteSkin
+        				owner: newFoodOwner["onion"], skin: (newFoodOwner["onion"] == "Communal") ? lightGreenSkin: whiteSkin,
+        				behavior: Behavior({
+        					onTouchEnded(container, id, x, y, ticks) {
+        						if (newFoodOwner["onion"] == "Communal") {
+        							MainContainer.empty();
+        							MainContainer.add(itemPageOnionContainer);
+        						}
+        					}
+        				})
         			});
         			let personalPageFoodThreeContainer = new personalPageFoodThreeTemplate({
         				skin: whiteSkin,
@@ -1757,15 +1837,43 @@ import {
         			personalPageContainer.add(personalPageFoodFiveContainer);
 
 
-        			let newStatusPageAppleContainer = new newStatusPageAppleTemplate({
-        				owner: newFoodOwner["apple"], skin: (newFoodOwner["apple"] == "Communal") ? lightGreenSkin : whiteSkin
-        			});
-        			let newStatusPageBananaContainer = new newStatusPageBananaTemplate({
-        				owner: newFoodOwner["banana"], skin: (newFoodOwner["banana"] == "Communal") ? lightGreenSkin : whiteSkin
-        			});
-        			let newStatusPageOnionContainer = new newStatusPageOnionTemplate({
-        				owner: newFoodOwner["onion"], skin: (newFoodOwner["onion"] == "Communal") ? lightGreenSkin: whiteSkin
-        			});
+					let newStatusPageAppleContainer = new newStatusPageAppleTemplate({
+						owner: newFoodOwner["apple"], skin: (newFoodOwner["apple"] == "Communal") ? lightGreenSkin : whiteSkin,
+						behavior: Behavior({
+							onTouchEnded(container, id, x, y, ticks) {
+								if (newFoodOwner["apple"] != "Joyce") {
+									MainContainer.empty();
+									MainContainer.add(itemPageAppleContainer);
+								}
+							}
+						})
+					});
+					
+					let newStatusPageBananaContainer = new newStatusPageBananaTemplate({
+						owner: newFoodOwner["banana"], skin: (newFoodOwner["banana"] == "Communal") ? lightGreenSkin : whiteSkin,
+						behavior: Behavior({
+							onTouchEnded(container, id, x, y, ticks) {
+								if (newFoodOwner["banana"] != "Joyce") {
+									MainContainer.empty();
+									MainContainer.add(itemPageBananaContainer);
+								}
+							}
+						})
+					});
+        			
+					let newStatusPageOnionContainer = new newStatusPageOnionTemplate({
+						owner: newFoodOwner["onion"], skin: (newFoodOwner["onion"] == "Communal") ? lightGreenSkin : whiteSkin,
+						behavior: Behavior({
+							onTouchEnded(container, id, x, y, ticks) {
+								if (newFoodOwner["onion"] != "Joyce") {
+									MainContainer.empty();
+									MainContainer.add(itemPageOnionContainer);
+								}
+							}
+						})
+					});  			
+        			
+
         			let newStatusPageFoodThreeContainer = new statusPageFoodThreeTemplate({
         				skin: whiteSkin,
         				contents: [
@@ -2043,12 +2151,13 @@ import {
             new StringTemplate ({left: 65, right: 180, top: 48, style: ownerStyle, string: $.owner}),
         ],
         active: true,
-        behavior: Behavior({
+        behavior: $.behavior
+        /**behavior: Behavior({
             onTouchEnded(container, id, x, y, ticks) {
-                //MainContainer.empty();
-                //MainContainer.add();
+                MainContainer.empty();
+                MainContainer.add(itemPageAppleContainer);
             }
-        })
+        })**/
     }));
 
     var statusPageFoodThreeTemplate = Container.template($ => ({
@@ -2079,12 +2188,13 @@ import {
             new StringTemplate ({left: 65, right: 180, top: 48, style: ownerStyle, string: $.owner}),
         ],
         active: true,
-        behavior: Behavior({
+        behavior: $.behavior
+        /**behavior: Behavior({
             onTouchEnded(container, id, x, y, ticks) {
                 //MainContainer.empty();
                 //MainContainer.add();
             }
-        })
+        })**/
     }));
 
     var statusPageFoodFourTemplate = Container.template($ => ({
@@ -2116,12 +2226,13 @@ import {
             new StringTemplate ({left: 65, right: 180, top: 48, style: ownerStyle, string: $.owner}),
         ],
         active: true,
-        behavior: Behavior({
+        behavior: $.behavior
+        /**behavior: Behavior({
             onTouchEnded(container, id, x, y, ticks) {
                 //MainContainer.empty();
                 //MainContainer.add();
             }
-        })
+        })**/
     }));
 
     var statusPageFoodFiveTemplate = Container.template($ => ({
@@ -2279,49 +2390,64 @@ import {
                 remotePins.repeat("/Apple/read", 10, function(result) {
                     personalPageAppleExpireLabel.string = "Expires in " + ((1 - result) * 30).toFixed(1) + " days.";
                     newStatusPageAppleExpireLabel.string = "Expires in " + ((1 - result) * 30).toFixed(1) + " days.";
+                    itemExpireTimeApple.string = "Expires in " + ((1 - result) * 30).toFixed(1) + " days.";
                     personalPageAppleLengthContainer.empty();
                     newStatusPageAppleLengthContainer.empty();
+                    itemExpireMeterApple.empty();
                     if (result >= 0.67) {
                         personalPageAppleLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: redSkin}));
                         newStatusPageAppleLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: redSkin}));
+                        itemExpireMeterApple.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: redSkin}));
                     } else if (result >= 0.33 && result < 0.67) {
                         personalPageAppleLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: yellowSkin}));
                         newStatusPageAppleLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: yellowSkin}));
+                        itemExpireMeterApple.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: yellowSkin}));
                     } else {
                         personalPageAppleLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: expireGreenSkin}));
                         newStatusPageAppleLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: expireGreenSkin}));
+                        itemExpireMeterApple.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: expireGreenSkin}));
                     }
                 })
                 remotePins.repeat("/Banana/read", 10, function(result) {
                     personalPageBananaExpireLabel.string = "Expires in " + ((1 - result) * 30).toFixed(1) + " days.";
                     newStatusPageBananaExpireLabel.string = "Expires in " + ((1 - result) * 30).toFixed(1) + " days.";
+                    itemExpireTimeBanana.string = "Expires in " + ((1 - result) * 30).toFixed(1) + " days.";
                     personalPageBananaLengthContainer.empty();
                     newStatusPageBananaLengthContainer.empty();
+                    itemExpireMeterBanana.empty();
                     if (result >= 0.67) {
                         personalPageBananaLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: redSkin}));
                         newStatusPageBananaLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: redSkin}));
+                        itemExpireMeterBanana.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: redSkin}));
                     } else if (result >= 0.33 && result < 0.67) {
                         personalPageBananaLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: yellowSkin}));
                         newStatusPageBananaLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: yellowSkin}));
+                        itemExpireMeterBanana.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: yellowSkin}));
                     } else {
                         personalPageBananaLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: expireGreenSkin}));
                         newStatusPageBananaLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: expireGreenSkin}));
+                        itemExpireMeterBanana.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: expireGreenSkin}));
                     }
                 })
                 remotePins.repeat("/Onion/read", 10, function(result) {
                     personalPageOnionExpireLabel.string = "Expires in " + ((1 - result) * 30).toFixed(1) + " days.";
                     newStatusPageOnionExpireLabel.string = "Expires in " + ((1 - result) * 30).toFixed(1) + " days.";
+                    itemExpireTimeOnion.string = "Expires in " + ((1 - result) * 30).toFixed(1) + " days.";
                     personalPageOnionLengthContainer.empty();
                     newStatusPageOnionLengthContainer.empty();
+                    itemExpireMeterOnion.empty();
                     if (result >= 0.67) {
                         personalPageOnionLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: redSkin}));
                         newStatusPageOnionLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: redSkin}));
+                        itemExpireMeterOnion.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: redSkin}));
                     } else if (result >= 0.33 && result < 0.67) {
                         personalPageOnionLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: yellowSkin}));
                         newStatusPageOnionLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: yellowSkin}));
+                        itemExpireMeterOnion.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: yellowSkin}));
                     } else {
                         personalPageOnionLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: expireGreenSkin}));
                         newStatusPageOnionLengthContainer.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: expireGreenSkin}));
+                        itemExpireMeterOnion.add(new foodExpireLengthTemplate({ right: 170 * parseFloat(1 - result), skin: expireGreenSkin}));
                     }
                 })
             }
